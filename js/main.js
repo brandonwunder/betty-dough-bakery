@@ -1298,24 +1298,28 @@ document.addEventListener('DOMContentLoaded', () => {
     adminLoginError.style.display = 'none';
   }
 
-  document.getElementById('adminLoginClose').addEventListener('click', closeAdminLoginModal);
+  if (adminLoginModal) {
+    document.getElementById('adminLoginClose')?.addEventListener('click', closeAdminLoginModal);
 
-  adminLoginModal.addEventListener('click', (e) => {
-    if (e.target === adminLoginModal) closeAdminLoginModal();
-  });
+    adminLoginModal.addEventListener('click', (e) => {
+      if (e.target === adminLoginModal) closeAdminLoginModal();
+    });
+  }
 
-  adminLoginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const username = document.getElementById('adminUsername').value.trim();
-    const password = document.getElementById('adminPassword').value;
+  if (adminLoginForm) {
+    adminLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('adminUsername').value.trim();
+      const password = document.getElementById('adminPassword').value;
 
-    if (typeof OrderStorage !== 'undefined' && OrderStorage.login(username, password)) {
-      closeAdminLoginModal();
-      window.location.href = 'admin.html';
-    } else {
-      adminLoginError.style.display = 'block';
-      document.getElementById('adminPassword').value = '';
-    }
-  });
+      if (typeof OrderStorage !== 'undefined' && OrderStorage.login(username, password)) {
+        closeAdminLoginModal();
+        window.location.href = 'admin.html';
+      } else {
+        adminLoginError.style.display = 'block';
+        document.getElementById('adminPassword').value = '';
+      }
+    });
+  }
 
 });
