@@ -61,8 +61,8 @@
   }
 
   .hero {
-    min-height: calc(100vh - 80px);
-    padding: var(--space-xl) 0 var(--space-2xl);
+    min-height: 100svh;
+    padding: var(--space-lg) 0 var(--space-xl);
   }
 
   .hero-logo {

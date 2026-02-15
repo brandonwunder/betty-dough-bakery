@@ -86,7 +86,7 @@ const OrderStorage = {
   login(username, password) {
     if (username === 'bettydough' && password === 'sourdough2025!') {
       const token = 'session-' + Date.now();
-      sessionStorage.setItem(this.AUTH_KEY, token);
+      localStorage.setItem(this.AUTH_KEY, token);
       return true;
     }
     return false;
@@ -96,7 +96,7 @@ const OrderStorage = {
    * Clear the session token
    */
   logout() {
-    sessionStorage.removeItem(this.AUTH_KEY);
+    localStorage.removeItem(this.AUTH_KEY);
   },
 
   /**
@@ -104,7 +104,7 @@ const OrderStorage = {
    * @returns {Boolean}
    */
   isAuthenticated() {
-    return !!sessionStorage.getItem(this.AUTH_KEY);
+    return !!localStorage.getItem(this.AUTH_KEY);
   },
 
   /**
