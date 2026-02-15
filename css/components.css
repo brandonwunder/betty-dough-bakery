@@ -657,8 +657,8 @@
 
 .hero-meta-item {
   flex: 1;
-  max-width: 160px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .hero-meta-label {
