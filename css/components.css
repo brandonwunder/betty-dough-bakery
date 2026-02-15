@@ -954,22 +954,22 @@
 /* Kitchen Showcase — decorative image in menu grid */
 .kitchen-showcase {
   grid-column: span 2;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(232, 146, 42, 0.15);
-  box-shadow:
-    0 0 30px rgba(232, 146, 42, 0.2),
-    0 0 60px rgba(232, 146, 42, 0.08),
-    0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
   animation: kitchenFloat 4s ease-in-out infinite;
 }
 
 .kitchen-showcase img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 80%;
+  max-height: 320px;
+  object-fit: contain;
   display: block;
+  filter: drop-shadow(0 0 30px rgba(232, 146, 42, 0.25))
+          drop-shadow(0 0 60px rgba(232, 146, 42, 0.1))
+          drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4));
 }
 
 @keyframes kitchenFloat {
