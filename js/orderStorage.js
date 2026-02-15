@@ -6,6 +6,21 @@
 const OrderStorage = {
   STORAGE_KEY: 'bettydough_orders',
   AUTH_KEY: 'bettydough_session',
+  PHOTO_PREFIX: 'bettydough_photo_',
+
+  // ===== ORDER PHOTOS =====
+
+  savePhoto(orderId, base64Data) {
+    localStorage.setItem(this.PHOTO_PREFIX + orderId, base64Data);
+  },
+
+  getPhoto(orderId) {
+    return localStorage.getItem(this.PHOTO_PREFIX + orderId);
+  },
+
+  deletePhoto(orderId) {
+    localStorage.removeItem(this.PHOTO_PREFIX + orderId);
+  },
 
   // ===== ORDER CRUD OPERATIONS =====
 

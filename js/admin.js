@@ -115,10 +115,27 @@ document.addEventListener('DOMContentLoaded', () => {
         </span>
       </div>
 
-      <div class="order-customer">
-        <div class="order-customer-name">${order.customer.name}</div>
-        <div class="order-customer-contact">${order.customer.email}</div>
-        <div class="order-customer-contact">${order.customer.phone}</div>
+      <div class="order-customer-row">
+        <div class="order-customer">
+          <div class="order-customer-name">${order.customer.name}</div>
+          <div class="order-customer-contact">${order.customer.email}</div>
+          <div class="order-customer-contact">${order.customer.phone}</div>
+        </div>
+        <div class="order-photo" data-order-id="${order.orderId}">
+          ${OrderStorage.getPhoto(order.orderId)
+            ? `<img src="${OrderStorage.getPhoto(order.orderId)}" alt="Baked goods photo" class="order-photo-img">
+               <button class="order-photo-remove" data-order-id="${order.orderId}" title="Remove photo">&times;</button>`
+            : `<label class="order-photo-upload" title="Add photo of baked goods">
+                <input type="file" accept="image/*" class="order-photo-input" data-order-id="${order.orderId}" hidden>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                <span>Add Photo</span>
+              </label>`
+          }
+        </div>
       </div>
 
       <div class="order-fulfillment">
@@ -416,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Status change
+    // Status change & photo upload
     document.getElementById('ordersGrid').addEventListener('change', (e) => {
       if (e.target.classList.contains('status-select')) {
         const orderId = e.target.dataset.orderId;
@@ -426,6 +443,41 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStats();
         renderOrders();
         if (calendar) calendar.refetchEvents();
+      }
+
+      // Photo upload
+      if (e.target.classList.contains('order-photo-input')) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const orderId = e.target.dataset.orderId;
+        const reader = new FileReader();
+        reader.onload = () => {
+          // Resize to keep localStorage manageable
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxSize = 300;
+            let w = img.width, h = img.height;
+            if (w > h) { h = (h / w) * maxSize; w = maxSize; }
+            else { w = (w / h) * maxSize; h = maxSize; }
+            canvas.width = w;
+            canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            OrderStorage.savePhoto(orderId, canvas.toDataURL('image/jpeg', 0.8));
+            renderOrders();
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Photo remove
+    document.getElementById('ordersGrid').addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.order-photo-remove');
+      if (removeBtn) {
+        OrderStorage.deletePhoto(removeBtn.dataset.orderId);
+        renderOrders();
       }
     });
 
