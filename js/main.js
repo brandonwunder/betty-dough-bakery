@@ -584,29 +584,34 @@ document.addEventListener('DOMContentLoaded', () => {
         '.hero-scroll-hint'
       ];
 
-      gsap.to(heroScrollElements, {
-        y: -40,
-        opacity: 0.3,
-        ease: 'none',
-        overwrite: 'auto',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
+      gsap.fromTo(heroScrollElements,
+        { opacity: 1, y: 0 },
+        {
+          y: -40,
+          opacity: 0.3,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
         }
-      });
+      );
 
-      gsap.to('.hero-accent-line', {
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: '60% top',
-          end: 'bottom top',
-          scrub: true
+      gsap.fromTo('.hero-accent-line',
+        { opacity: 1 },
+        {
+          opacity: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: '60% top',
+            end: 'bottom top',
+            scrub: true
+          }
         }
-      });
+      );
 
     } else {
       // Reduced motion: make everything visible instantly
