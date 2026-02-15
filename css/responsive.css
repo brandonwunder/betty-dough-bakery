@@ -408,6 +408,21 @@
   .schedule-featured-badge {
     animation: none;
   }
+
+  /* Disable button shine sweeps on touch */
+  .btn-add::after,
+  .btn-primary::after {
+    display: none;
+  }
+
+  /* Disable product card inner glow on touch */
+  .product-card::after {
+    display: none;
+  }
+
+  /* Remove text-shadow glow on touch (no hover) */
+  .nav-links a:hover { text-shadow: none; }
+  .footer-col a:hover { text-shadow: none; }
 }
 
 /* Reduced motion — respect user preference */
@@ -487,7 +502,13 @@
     display: none;
   }
 
-  .product-card::before {
+  .product-card::before,
+  .product-card::after {
+    display: none;
+  }
+
+  .btn-add::after,
+  .btn-primary::after {
     display: none;
   }
 }

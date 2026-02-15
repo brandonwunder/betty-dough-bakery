@@ -107,6 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // ===== REDUCED MOTION CHECK =====
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // ===== CART =====
   const cart = [];
   const cartBadge = document.getElementById('cartBadge');
@@ -114,9 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateCartBadge() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartBadge.textContent = totalItems;
-    cartBadge.classList.remove('bump');
-    void cartBadge.offsetWidth;
-    cartBadge.classList.add('bump');
+
+    // GSAP pop with color flash
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion && totalItems > 0) {
+      gsap.fromTo(cartBadge,
+        { scale: 1, backgroundColor: '#e8922a' },
+        { scale: 1.5, backgroundColor: '#f5a623', duration: 0.15, ease: 'power2.out',
+          yoyo: true, repeat: 1,
+          onComplete: () => gsap.set(cartBadge, { backgroundColor: '', scale: 1 })
+        }
+      );
+    }
   }
 
   // ===== MODAL STATE =====
@@ -156,21 +167,48 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
     stopLenis();
 
-    // Focus close button
+    // GSAP entrance choreography
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      const tl = gsap.timeline();
+      tl.fromTo(modalContent,
+        { scale: 0.92, opacity: 0, y: 20, filter: 'blur(6px)' },
+        { scale: 1, opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.35, ease: 'power3.out' }
+      );
+      tl.from(modalContent.querySelector('.modal-header'),
+        { y: 15, opacity: 0, duration: 0.25, ease: 'power2.out' }, '-=0.15'
+      );
+      tl.from(modalContent.querySelectorAll('.modal-section'),
+        { y: 12, opacity: 0, duration: 0.25, stagger: 0.08, ease: 'power2.out' }, '-=0.1'
+      );
+      tl.from(modalContent.querySelector('.modal-footer'),
+        { y: 15, opacity: 0, duration: 0.3, ease: 'back.out(1.5)' }, '-=0.1'
+      );
+    }
+
     document.getElementById('modalClose').focus();
   }
 
   // ===== CLOSE MODAL =====
   function closeModal() {
-    modalOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-    startLenis();
-
-    // Return focus to the trigger button
-    const triggerBtn = document.querySelector(
-      `.btn-add[data-product-id="${modalState.productId}"]`
-    );
-    if (triggerBtn) triggerBtn.focus();
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.to(modalContent, {
+        scale: 0.95, opacity: 0, y: 10, duration: 0.2, ease: 'power2.in',
+        onComplete: () => {
+          modalOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+          startLenis();
+          gsap.set(modalContent, { clearProps: 'all' });
+          const triggerBtn = document.querySelector(`.btn-add[data-product-id="${modalState.productId}"]`);
+          if (triggerBtn) triggerBtn.focus();
+        }
+      });
+    } else {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      startLenis();
+      const triggerBtn = document.querySelector(`.btn-add[data-product-id="${modalState.productId}"]`);
+      if (triggerBtn) triggerBtn.focus();
+    }
   }
 
   // ===== POPULATE MODAL =====
@@ -252,6 +290,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.toggle('active', i === index);
     });
     updateModalPrice();
+
+    // Pop active size button
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      const activeBtn = modalSizeOptions.querySelector('.size-option.active');
+      if (activeBtn) gsap.fromTo(activeBtn, { scale: 1 }, { scale: 1.05, duration: 0.15, ease: 'back.out(2)', yoyo: true, repeat: 1 });
+    }
   }
 
   // ===== FLAVOR SELECTION =====
@@ -260,6 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
     modalFlavorOptions.querySelectorAll('.flavor-tag-selectable').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.flavor === flavor);
     });
+
+    // Pop active flavor tag
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      const activeTag = modalFlavorOptions.querySelector('.flavor-tag-selectable.active');
+      if (activeTag) gsap.fromTo(activeTag, { scale: 1 }, { scale: 1.08, duration: 0.15, ease: 'back.out(2)', yoyo: true, repeat: 1 });
+    }
   }
 
   // ===== UPDATE PRICE DISPLAY =====
@@ -281,17 +331,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ===== QUANTITY CONTROLS =====
-  document.getElementById('qtyPlus').addEventListener('click', () => {
+  const qtyPlusBtn = document.getElementById('qtyPlus');
+  const qtyMinusBtn = document.getElementById('qtyMinus');
+
+  qtyPlusBtn.addEventListener('click', () => {
     modalState.quantity++;
     modalQtyValue.textContent = modalState.quantity;
     updateModalPrice();
+
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.fromTo(qtyPlusBtn, { scale: 1 }, { scale: 1.3, duration: 0.1, ease: 'power2.out', yoyo: true, repeat: 1 });
+      gsap.fromTo(modalQtyValue, { scale: 1, color: '#e8922a' }, { scale: 1.2, duration: 0.15, ease: 'power2.out', yoyo: true, repeat: 1, onComplete: () => gsap.set(modalQtyValue, { color: '' }) });
+    }
   });
 
-  document.getElementById('qtyMinus').addEventListener('click', () => {
+  qtyMinusBtn.addEventListener('click', () => {
     if (modalState.quantity > 1) {
       modalState.quantity--;
       modalQtyValue.textContent = modalState.quantity;
       updateModalPrice();
+
+      if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+        gsap.fromTo(qtyMinusBtn, { scale: 1 }, { scale: 1.3, duration: 0.1, ease: 'power2.out', yoyo: true, repeat: 1 });
+        gsap.fromTo(modalQtyValue, { scale: 1, color: '#e8922a' }, { scale: 1.2, duration: 0.15, ease: 'power2.out', yoyo: true, repeat: 1, onComplete: () => gsap.set(modalQtyValue, { color: '' }) });
+      }
     }
   });
 
@@ -377,6 +440,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function openMenu() {
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // Stagger nav links from left
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.from('.mobile-nav-links a', {
+        x: -20, opacity: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out', delay: 0.15
+      });
+    }
   }
 
   function closeMenu() {
@@ -438,8 +508,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // --- Hero Entrance Animation ---
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     if (!prefersReducedMotion) {
       const heroTl = gsap.timeline({ delay: 0.2 });
 
@@ -865,10 +933,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Info Banner ---
     gsap.from('.info-banner', {
-      y: 20,
+      x: -30,
       opacity: 0,
-      duration: 0.6,
-      ease: 'power2.out',
+      filter: 'blur(4px)',
+      duration: 0.7,
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: '.info-banner',
         start: 'top 85%',
@@ -902,6 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.from('.about-text', {
       y: 25,
       opacity: 0,
+      filter: 'blur(3px)',
       duration: 0.7,
       stagger: 0.15,
       ease: 'power2.out',
@@ -911,10 +981,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Pull-quote border accent reveal
+    const pullQuote = document.querySelector('.about-owner-text .about-text:first-child');
+    if (pullQuote) {
+      gsap.fromTo(pullQuote,
+        { borderLeftColor: 'transparent' },
+        { borderLeftColor: '#e8922a', duration: 0.8, delay: 0.3, ease: 'power2.out',
+          scrollTrigger: { trigger: '.about-owner-text', start: 'top 80%' }
+        }
+      );
+    }
+
     // --- Footer Columns Stagger ---
     gsap.from('.footer-grid > *', {
       y: 30,
       opacity: 0,
+      filter: 'blur(3px)',
       duration: 0.6,
       stagger: 0.1,
       ease: 'power2.out',
@@ -989,6 +1071,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cartDrawerOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     stopLenis();
+
+    // Stagger cart items in
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.from(cartDrawerItems.querySelectorAll('.cart-item'), {
+        x: 30, opacity: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out', delay: 0.15
+      });
+    }
+
     document.getElementById('cartDrawerClose').focus();
   }
 
@@ -1060,9 +1150,21 @@ document.addEventListener('DOMContentLoaded', () => {
       cart.splice(index, 1);
     } else if (btn.dataset.action === 'increase') {
       cart[index].quantity++;
+      // Pop feedback on + button
+      if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+        gsap.fromTo(btn, { scale: 1 }, { scale: 1.3, duration: 0.1, yoyo: true, repeat: 1, ease: 'power2.out' });
+        const qtySpan = btn.parentElement.querySelector('.cart-item-qty');
+        if (qtySpan) gsap.fromTo(qtySpan, { scale: 1, color: '#fff' }, { scale: 1.2, color: '#e8922a', duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' });
+      }
     } else if (btn.dataset.action === 'decrease') {
       if (cart[index].quantity > 1) {
         cart[index].quantity--;
+        // Pop feedback on - button
+        if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+          gsap.fromTo(btn, { scale: 1 }, { scale: 1.3, duration: 0.1, yoyo: true, repeat: 1, ease: 'power2.out' });
+          const qtySpan = btn.parentElement.querySelector('.cart-item-qty');
+          if (qtySpan) gsap.fromTo(qtySpan, { scale: 1, color: '#fff' }, { scale: 1.2, color: '#e8922a', duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' });
+        }
       } else {
         cart.splice(index, 1);
       }
@@ -1112,6 +1214,16 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutOverlay.classList.add('active');
     checkoutOverlay.scrollTop = 0;
     stopLenis();
+
+    // Stagger form sections and summary card
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.from(checkoutOverlay.querySelectorAll('.checkout-section'), {
+        y: 20, opacity: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out', delay: 0.2
+      });
+      gsap.from(checkoutOverlay.querySelector('.checkout-summary-card'), {
+        x: 30, opacity: 0, duration: 0.5, ease: 'power3.out', delay: 0.3
+      });
+    }
   }
 
   function closeCheckout() {
@@ -1298,6 +1410,19 @@ document.addEventListener('DOMContentLoaded', () => {
     adminLoginModal.classList.add('active');
     document.body.style.overflow = 'hidden';
     stopLenis();
+
+    // GSAP entrance choreography
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      const adminContent = adminLoginModal.querySelector('.modal-content');
+      gsap.fromTo(adminContent,
+        { scale: 0.92, opacity: 0, y: 20, filter: 'blur(6px)' },
+        { scale: 1, opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.35, ease: 'power3.out' }
+      );
+      gsap.from(adminLoginModal.querySelectorAll('.form-group'), {
+        y: 12, opacity: 0, duration: 0.25, stagger: 0.08, ease: 'power2.out', delay: 0.2
+      });
+    }
+
     document.getElementById('adminUsername').focus();
   }
 
