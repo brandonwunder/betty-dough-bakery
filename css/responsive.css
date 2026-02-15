@@ -9,13 +9,17 @@
   }
 
   .schedule-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
   }
 
+  .schedule-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .schedule-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .schedule-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+
   .schedule-card-featured {
-    grid-column: 1 / -1;
-    max-width: 50%;
-    justify-self: center;
+    grid-column: 2;
+    grid-row: 2;
   }
 
   .footer-grid {
@@ -67,6 +71,28 @@
     gap: var(--space-sm);
   }
 
+  /* Hide accent lines on tablet — too tight */
+  .hero-accents {
+    display: none;
+  }
+
+  /* Reduce glass panel padding */
+  .hero-text-group {
+    padding: var(--space-md) var(--space-lg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Reduce blobs */
+  .hero-blob-1 { width: 70vw; height: 70vw; }
+  .hero-blob-2 { width: 50vw; height: 50vw; }
+  .hero-blob-3 { display: none; }
+
+  /* Slower shimmer on smaller screens */
+  .hero-title .title-script.shimmer-active {
+    animation-duration: 6s;
+  }
+
   /* Header */
   .nav-links {
     display: none;
@@ -102,6 +128,19 @@
   .schedule-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .schedule-card-featured {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .schedule-card-inner {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .schedule-blob-1 { width: 50vw; height: 50vw; }
+  .schedule-blob-2 { display: none; }
 
   /* About owner stack on tablet */
   .about-owner {
@@ -182,6 +221,21 @@
     max-width: 100%;
   }
 
+  /* Simplify glass panel on mobile */
+  .hero-text-group {
+    background: rgba(17, 17, 17, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: none;
+    box-shadow: none;
+    padding: var(--space-md);
+    border-radius: 12px;
+  }
+
+  /* Hide scroll hint and mouse glow on mobile */
+  .hero-scroll-hint { display: none; }
+  .hero-mouse-glow { display: none; }
+
   .shop-tabs {
     flex-direction: row;
     flex-wrap: wrap;
@@ -233,12 +287,25 @@
     grid-template-columns: 1fr;
   }
 
-  .schedule-card {
-    padding: var(--space-lg) var(--space-md);
+  .schedule-card:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .schedule-card-featured {
     max-width: 100%;
+  }
+
+  .schedule-card-inner {
+    padding: var(--space-lg) var(--space-md);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .schedule-day {
+    width: 28px;
+    height: 28px;
+    font-size: 0.6rem;
   }
 
   .schedule-badge {
@@ -298,6 +365,17 @@
   .product-card:hover {
     box-shadow: var(--shadow-card);
   }
+
+  /* Hero: disable interactive/animated decorations on touch */
+  .hero-mouse-glow { display: none; }
+  .hero-cta::after { display: none; }
+  .hero-logo::before { animation: none; opacity: 0; }
+
+  /* Schedule: disable interactive decorations on touch */
+  .schedule-card::after { display: none; }
+  .schedule-card::before { animation: none; }
+  .schedule-featured-glow { animation: none; opacity: 0.5; }
+  .schedule-order-btn::after { display: none; }
 }
 
 /* Reduced motion — respect user preference */
@@ -311,8 +389,54 @@
     animation: none;
   }
 
+  .hero-logo::before {
+    animation: none;
+  }
+
+  .hero-blob {
+    animation: none;
+  }
+
+  .hero-title .title-script.shimmer-active {
+    animation: none;
+    -webkit-text-fill-color: var(--color-text-primary);
+    background: none;
+  }
+
+  .hero-scroll-hint {
+    animation: none;
+    opacity: 0.3;
+  }
+
   .schedule-badge {
     animation: none;
+  }
+
+  .schedule-card::before {
+    animation: none;
+  }
+
+  .schedule-card::after {
+    display: none;
+  }
+
+  .schedule-featured-glow {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  .schedule-blob {
+    animation: none;
+  }
+
+  .schedule-section .section-title .title-script.shimmer-active {
+    animation: none;
+    -webkit-text-fill-color: var(--color-text-primary);
+    background: none;
+  }
+
+  .schedule-order-btn::after {
+    display: none;
   }
 
   .product-card::before {

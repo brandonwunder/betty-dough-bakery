@@ -435,91 +435,332 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // --- Hero Entrance Animation ---
-    const heroTl = gsap.timeline({ delay: 0.3 });
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Logo fade up
-    heroTl.from('.hero-logo', {
-      y: 40,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    });
+    if (!prefersReducedMotion) {
+      const heroTl = gsap.timeline({ delay: 0.4 });
 
-    // Title CAPS label
-    heroTl.from('.hero-title .title-caps', {
-      y: 20,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'power2.out'
-    }, '-=0.4');
-
-    // Title Script — character reveal via SplitText
-    if (typeof SplitText !== 'undefined') {
-      const heroScript = document.querySelector('.hero-title .title-script');
-      if (heroScript) {
-        const heroSplit = new SplitText(heroScript, { type: 'chars' });
-        heroTl.from(heroSplit.chars, {
-          y: 50,
-          opacity: 0,
-          rotateX: -60,
-          stagger: 0.03,
-          duration: 0.6,
-          ease: 'back.out(1.7)'
-        }, '-=0.3');
-      }
-    } else {
-      heroTl.from('.hero-title .title-script', {
-        y: 30,
+      // 1. Background image fade + scale (cinematic opening)
+      heroTl.from('.hero-bg', {
+        scale: 1.2,
         opacity: 0,
+        duration: 2,
+        ease: 'power2.out'
+      }, 0);
+
+      // 2. Ambient blobs materialize
+      heroTl.from('.hero-blob', {
+        opacity: 0,
+        scale: 0.5,
+        duration: 2,
+        stagger: 0.3,
+        ease: 'power2.out'
+      }, 0.3);
+
+      // 3. Accent lines grow in
+      heroTl.from('.hero-accent-line', {
+        scaleY: 0,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power3.out',
+        transformOrigin: 'center center'
+      }, 0.5);
+
+      // 4. Glass panel appears
+      heroTl.from('.hero-text-group', {
+        opacity: 0,
+        scale: 0.97,
         duration: 0.8,
         ease: 'power2.out'
-      }, '-=0.3');
+      }, 0.6);
+
+      // 5. Logo fade up with enhanced depth
+      heroTl.from('.hero-logo', {
+        y: 50,
+        opacity: 0,
+        scale: 0.8,
+        duration: 1.2,
+        ease: 'power3.out'
+      }, 0.5);
+
+      // 6. CAPS title with letter-spacing expansion
+      heroTl.from('.hero-title .title-caps', {
+        y: 20,
+        opacity: 0,
+        letterSpacing: '0.1em',
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.5');
+
+      // 7. Script title — SplitText character reveal
+      const heroScript = document.querySelector('.hero-title .title-script');
+      if (typeof SplitText !== 'undefined' && heroScript) {
+        const heroSplit = new SplitText(heroScript, { type: 'chars' });
+        heroTl.from(heroSplit.chars, {
+          y: 80,
+          opacity: 0,
+          rotateX: -90,
+          scale: 0.5,
+          stagger: 0.04,
+          duration: 0.7,
+          ease: 'back.out(1.7)',
+          onComplete: function() {
+            // Enable shimmer after entrance completes
+            gsap.delayedCall(0.5, function() {
+              heroScript.classList.add('shimmer-active');
+            });
+          }
+        }, '-=0.3');
+      } else if (heroScript) {
+        heroTl.from(heroScript, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          onComplete: function() {
+            heroScript.classList.add('shimmer-active');
+          }
+        }, '-=0.3');
+      }
+
+      // 8. Description — word-by-word SplitText fade
+      const heroDesc = document.querySelector('.hero-description');
+      if (typeof SplitText !== 'undefined' && heroDesc) {
+        const descSplit = new SplitText(heroDesc, { type: 'words' });
+        heroTl.from(descSplit.words, {
+          opacity: 0,
+          y: 15,
+          stagger: 0.015,
+          duration: 0.4,
+          ease: 'power2.out'
+        }, '-=0.3');
+      } else {
+        heroTl.from('.hero-description', {
+          y: 20,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.out'
+        }, '-=0.3');
+      }
+
+      // 9. CTA Button scale-up
+      heroTl.from('.hero-cta', {
+        scale: 0.85,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'back.out(2.5)'
+      }, '-=0.2');
+
+      // 10. Meta items + divider + scroll hint
+      heroTl.from('.hero-meta-item, .hero-divider', {
+        y: 20,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power2.out'
+      }, '-=0.2');
+
+      heroTl.from('.hero-scroll-hint', {
+        opacity: 0,
+        y: 10,
+        duration: 0.5,
+        ease: 'power2.out'
+      }, '-=0.2');
+
+      // --- Hero Scroll Parallax ---
+      gsap.to('.hero-bg', {
+        yPercent: -20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      gsap.to('.hero-content', {
+        y: -40,
+        opacity: 0.3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      gsap.to('.hero-accent-line', {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: '60% top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+    } else {
+      // Reduced motion: make everything visible instantly
+      gsap.set([
+        '.hero-bg', '.hero-blob', '.hero-accent-line',
+        '.hero-text-group', '.hero-logo',
+        '.hero-title .title-caps', '.hero-title .title-script',
+        '.hero-description', '.hero-cta',
+        '.hero-meta-item', '.hero-divider', '.hero-scroll-hint'
+      ], { opacity: 1, y: 0, scale: 1, rotateX: 0 });
     }
 
-    // Description
-    heroTl.from('.hero-description', {
-      y: 20,
-      opacity: 0,
-      duration: 0.7,
-      ease: 'power2.out'
-    }, '-=0.3');
+    // --- Hero Mouse-Follow Glow (desktop only) ---
+    (function() {
+      var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      if (isTouchDevice) return;
 
-    // CTA Button
-    heroTl.from('.hero .btn-primary', {
-      scale: 0.9,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'back.out(2)'
-    }, '-=0.3');
+      var hero = document.querySelector('.hero');
+      if (!hero) return;
 
-    // Meta items
-    heroTl.from('.hero-meta-item', {
-      y: 15,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 0.5,
-      ease: 'power2.out'
-    }, '-=0.2');
+      var rafId = null;
+      hero.addEventListener('mousemove', function(e) {
+        if (rafId) return;
+        rafId = requestAnimationFrame(function() {
+          var rect = hero.getBoundingClientRect();
+          var x = ((e.clientX - rect.left) / rect.width) * 100;
+          var y = ((e.clientY - rect.top) / rect.height) * 100;
+          hero.style.setProperty('--mouse-x', x + '%');
+          hero.style.setProperty('--mouse-y', y + '%');
+          rafId = null;
+        });
+      });
 
-    // --- Hero Background Subtle Scale ---
-    gsap.from('.hero::before', {
-      scale: 1.15,
-      duration: 4,
-      ease: 'power2.out'
-    });
+      hero.addEventListener('mouseleave', function() {
+        hero.style.setProperty('--mouse-x', '50%');
+        hero.style.setProperty('--mouse-y', '50%');
+      });
+    })();
 
-    // --- Schedule Cards Stagger ---
-    gsap.from('.schedule-card', {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.12,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.schedule-grid',
-        start: 'top 82%',
+    // --- Schedule Section: Premium Entrance ---
+    if (!prefersReducedMotion) {
+      var schedTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.schedule-section',
+          start: 'top 78%',
+        }
+      });
+
+      // Phase 1: Header cascade
+      schedTl.from('.schedule-label', {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+
+      schedTl.from('.schedule-section .section-title .title-caps', {
+        y: 15,
+        opacity: 0,
+        letterSpacing: '0.1em',
+        duration: 0.6,
+        ease: 'power2.out'
+      }, '-=0.2');
+
+      // SplitText char reveal for "Schedule" (rotateY flip — distinct from hero's rotateX)
+      var scheduleScript = document.querySelector('.schedule-section .section-title .title-script');
+      if (typeof SplitText !== 'undefined' && scheduleScript) {
+        var schedSplit = new SplitText(scheduleScript, { type: 'chars' });
+        schedTl.from(schedSplit.chars, {
+          opacity: 0,
+          y: 40,
+          rotateY: -90,
+          stagger: 0.04,
+          duration: 0.6,
+          ease: 'back.out(1.5)',
+          onComplete: function() {
+            gsap.delayedCall(0.8, function() {
+              scheduleScript.classList.add('shimmer-active');
+            });
+          }
+        }, '-=0.3');
       }
-    });
+
+      // Phase 2: Intro text word reveal
+      var schedIntro = document.querySelector('.schedule-intro');
+      if (typeof SplitText !== 'undefined' && schedIntro) {
+        var introSplit = new SplitText(schedIntro, { type: 'words' });
+        schedTl.from(introSplit.words, {
+          opacity: 0,
+          y: 12,
+          stagger: 0.015,
+          duration: 0.35,
+          ease: 'power2.out'
+        }, '-=0.2');
+      } else {
+        schedTl.from('.schedule-intro', {
+          y: 20,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'power2.out'
+        }, '-=0.2');
+      }
+
+      // Phase 3: Divider grows from center
+      schedTl.from('.schedule-divider', {
+        scaleX: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        transformOrigin: 'center center'
+      }, '-=0.1');
+
+      // Phase 4: Regular cards stagger in with blur
+      var regularCards = document.querySelectorAll('.schedule-card:not(.schedule-card-featured)');
+      schedTl.from(regularCards, {
+        y: 60,
+        opacity: 0,
+        scale: 0.95,
+        filter: 'blur(6px)',
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power3.out'
+      }, '-=0.2');
+
+      // Phase 5: Featured card enters from right
+      schedTl.from('.schedule-card-featured', {
+        x: 80,
+        opacity: 0,
+        scale: 0.9,
+        filter: 'blur(8px)',
+        duration: 1,
+        ease: 'power3.out'
+      }, '-=0.5');
+
+      // Phase 6: Badge pops in
+      schedTl.from('.schedule-badge', {
+        scale: 0,
+        opacity: 0,
+        duration: 0.4,
+        ease: 'back.out(3)'
+      }, '-=0.3');
+
+      // Phase 7: Ambient blobs fade in
+      schedTl.from('.schedule-blob', {
+        opacity: 0,
+        scale: 0.5,
+        duration: 1.5,
+        stagger: 0.2,
+        ease: 'power2.out'
+      }, '-=0.8');
+
+    } else {
+      // Reduced motion: make schedule elements visible
+      gsap.set([
+        '.schedule-label', '.schedule-section .section-title',
+        '.schedule-intro', '.schedule-divider',
+        '.schedule-card', '.schedule-card-featured',
+        '.schedule-badge', '.schedule-blob'
+      ], { opacity: 1, y: 0, x: 0, scale: 1, filter: 'blur(0px)' });
+    }
 
     // --- Product Cards Stagger ---
     gsap.from('.product-card', {
@@ -535,17 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // --- Schedule Header ---
-    gsap.from('.schedule-header', {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.schedule-section',
-        start: 'top 80%',
-      }
-    });
+    // (Schedule header animation now part of schedTl timeline above)
 
     // --- Shop Header ---
     gsap.from('.shop-header', {
@@ -655,12 +886,13 @@ document.addEventListener('DOMContentLoaded', () => {
         scale: 1.02,
       });
 
-      // Schedule cards — subtler tilt
+      // Schedule cards — enhanced tilt with scale
       VanillaTilt.init(document.querySelectorAll('.schedule-card'), {
-        max: 5,
+        max: 6,
         speed: 400,
         glare: true,
-        'max-glare': 0.1,
+        'max-glare': 0.12,
+        scale: 1.02,
       });
     }
   }
