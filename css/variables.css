@@ -1,0 +1,58 @@
+:root {
+  /* Colors */
+  --color-bg-primary:      #111111;
+  --color-bg-secondary:    #1a1a1a;
+  --color-bg-card:         #1e1e1e;
+  --color-bg-card-hover:   #2a2a2a;
+  --color-accent:          #e8922a;
+  --color-accent-hover:    #d4801e;
+  --color-accent-light:    #f5a623;
+  --color-text-primary:    #ffffff;
+  --color-text-secondary:  #b0b0b0;
+  --color-text-muted:      #777777;
+  --color-info-bg:         #6b5a28;
+  --color-info-text:       #f0e0c0;
+  --color-border:          #2a2a2a;
+
+  /* Typography */
+  --font-serif:    'Playfair Display', 'Georgia', serif;
+  --font-sans:     'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-script:   'Pacifico', cursive;
+
+  /* Font sizes - fluid */
+  --text-xs:    clamp(0.625rem, 0.55rem + 0.25vw, 0.75rem);
+  --text-sm:    clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-base:  clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
+  --text-lg:    clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  --text-xl:    clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+  --text-2xl:   clamp(1.5rem, 1.1rem + 1.2vw, 2.5rem);
+  --text-3xl:   clamp(2rem, 1.4rem + 2vw, 3.5rem);
+  --text-hero:  clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
+
+  /* Spacing */
+  --space-xs:   0.25rem;
+  --space-sm:   0.5rem;
+  --space-md:   1rem;
+  --space-lg:   1.5rem;
+  --space-xl:   2rem;
+  --space-2xl:  3rem;
+  --space-3xl:  4rem;
+  --space-4xl:  6rem;
+
+  /* Layout */
+  --container-max:    1280px;
+  --container-padding: clamp(1rem, 2vw, 3rem);
+  --grid-gap:         clamp(1rem, 1.5vw, 1.5rem);
+  --card-radius:      8px;
+  --btn-radius:       6px;
+  --btn-radius-pill:  50px;
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* Shadows */
+  --shadow-card:  0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.5);
+}

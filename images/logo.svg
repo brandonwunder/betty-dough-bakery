@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <style>
+      .logo-text { font-family: 'Georgia', serif; fill: #ffffff; }
+      .logo-accent { fill: #e8922a; }
+      .logo-line { stroke: #e8922a; stroke-width: 1; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Outer circle -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#e8922a" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#e8922a" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Wheat sheaves - left -->
+  <g transform="translate(40, 50)" opacity="0.9">
+    <!-- Stem -->
+    <line x1="20" y1="10" x2="10" y2="70" stroke="#e8922a" stroke-width="1.5"/>
+    <!-- Grains -->
+    <ellipse cx="18" cy="15" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(-15, 18, 15)"/>
+    <ellipse cx="15" cy="28" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(-10, 15, 28)"/>
+    <ellipse cx="13" cy="42" rx="4" ry="7" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(-5, 13, 42)"/>
+    <ellipse cx="22" cy="20" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(10, 22, 20)"/>
+    <ellipse cx="20" cy="34" rx="5" ry="7" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(5, 20, 34)"/>
+  </g>
+
+  <!-- Wheat sheaves - right -->
+  <g transform="translate(130, 50)" opacity="0.9">
+    <!-- Stem -->
+    <line x1="10" y1="10" x2="20" y2="70" stroke="#e8922a" stroke-width="1.5"/>
+    <!-- Grains -->
+    <ellipse cx="12" cy="15" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(15, 12, 15)"/>
+    <ellipse cx="15" cy="28" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(10, 15, 28)"/>
+    <ellipse cx="17" cy="42" rx="4" ry="7" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(5, 17, 42)"/>
+    <ellipse cx="8" cy="20" rx="5" ry="8" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(-10, 8, 20)"/>
+    <ellipse cx="10" cy="34" rx="5" ry="7" fill="none" stroke="#e8922a" stroke-width="1" transform="rotate(-5, 10, 34)"/>
+  </g>
+
+  <!-- Rolling pin icon -->
+  <g transform="translate(70, 55)">
+    <rect x="8" y="18" width="44" height="14" rx="7" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+    <rect x="0" y="21" width="12" height="8" rx="2" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    <rect x="48" y="21" width="12" height="8" rx="2" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+  </g>
+
+  <!-- Star / decorative element -->
+  <polygon points="100,38 103,46 111,46 105,51 107,59 100,55 93,59 95,51 89,46 97,46" fill="#e8922a" opacity="0.7"/>
+
+  <!-- Bakery Name -->
+  <text x="100" y="105" text-anchor="middle" class="logo-text" font-size="18" font-weight="bold" letter-spacing="3">BETTY DOUGH</text>
+
+  <!-- Decorative line -->
+  <line x1="45" y1="115" x2="155" y2="115" class="logo-line" opacity="0.5"/>
+
+  <!-- Sub text -->
+  <text x="100" y="132" text-anchor="middle" class="logo-text" font-size="11" letter-spacing="6">BAKERY</text>
+
+  <!-- Bottom decorative line -->
+  <line x1="60" y1="140" x2="140" y2="140" class="logo-line" opacity="0.5"/>
+
+  <!-- Established text -->
+  <text x="100" y="158" text-anchor="middle" class="logo-text" font-size="7" letter-spacing="3" opacity="0.6">EST. 2020</text>
+
+  <!-- Small decorative dots -->
+  <circle cx="55" cy="115" r="2" class="logo-accent" opacity="0.5"/>
+  <circle cx="145" cy="115" r="2" class="logo-accent" opacity="0.5"/>
+  <circle cx="68" cy="140" r="1.5" class="logo-accent" opacity="0.5"/>
+  <circle cx="132" cy="140" r="1.5" class="logo-accent" opacity="0.5"/>
+</svg>

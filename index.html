@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Betty Dough Bakery | Small-Batch Artisan Sourdough</title>
+  <meta name="description" content="Betty Dough Bakery LLC - Small-batch artisan sourdough bakery crafting fresh breads, bagels, English muffins, cinnamon rolls, and more. Made to order with high-quality ingredients.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-top container">
+      <button class="hamburger-btn" aria-label="Open menu" id="menuToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <span class="header-label">Main page</span>
+      <span class="header-spacer"></span>
+      <span class="header-label header-label-right">Order Now</span>
+    </div>
+
+    <nav class="header-nav container" aria-label="Main navigation">
+      <span class="nav-phone">Betty Dough Bakery LLC</span>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About us</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#schedule">Baking Schedule</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Shopping cart" id="cartBtnNav">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 01-8 0"></path>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="icon-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+      <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" aria-label="Close menu" id="menuClose">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <ul class="mobile-nav-links">
+          <li><a href="#about">About us</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#schedule">Baking Schedule</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <span class="mobile-phone">Betty Dough Bakery LLC</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay">
+    <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle">
+      <div class="cart-drawer-header">
+        <h2 class="cart-drawer-title" id="cartDrawerTitle">
+          <span class="title-caps">YOUR</span>
+          <span class="title-script">Cart</span>
+        </h2>
+        <button class="cart-drawer-close" id="cartDrawerClose" aria-label="Close cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="cart-drawer-items" id="cartDrawerItems">
+        <div class="cart-empty" id="cartEmpty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 01-8 0"></path>
+          </svg>
+          <p class="cart-empty-text">Your cart is empty</p>
+          <p class="cart-empty-subtext">Browse our menu and add some fresh baked goods</p>
+          <button class="btn btn-primary" id="cartEmptyShopBtn">View Menu</button>
+        </div>
+      </div>
+      <div class="cart-drawer-footer" id="cartDrawerFooter" style="display:none;">
+        <div class="cart-subtotal">
+          <span class="cart-subtotal-label">Subtotal</span>
+          <span class="cart-subtotal-value" id="cartSubtotal">$0.00</span>
+        </div>
+        <p class="cart-order-note">Taxes &amp; delivery calculated at checkout</p>
+        <button class="btn btn-primary btn-checkout" id="cartCheckoutBtn">Proceed to Checkout</button>
+        <button class="btn btn-continue" id="cartContinueBtn">Continue Shopping</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== CHECKOUT OVERLAY ===== -->
+  <div class="checkout-overlay" id="checkoutOverlay">
+    <div class="checkout-page">
+      <div class="checkout-header container">
+        <button class="checkout-back" id="checkoutBack" aria-label="Back to cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Back to Cart</span>
+        </button>
+        <h2 class="checkout-title">
+          <span class="title-caps">SECURE</span>
+          <span class="title-script">Checkout</span>
+        </h2>
+      </div>
+
+      <div class="checkout-body container">
+        <div class="checkout-grid">
+          <div class="checkout-forms">
+            <fieldset class="checkout-section">
+              <legend class="checkout-section-title">Customer Information</legend>
+              <div class="form-group">
+                <label class="form-label" for="checkoutName">Full Name</label>
+                <input class="form-input" type="text" id="checkoutName" name="name" placeholder="Jane Doe" required autocomplete="name">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="checkoutEmail">Email</label>
+                  <input class="form-input" type="email" id="checkoutEmail" name="email" placeholder="jane@example.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="checkoutPhone">Phone</label>
+                  <input class="form-input" type="tel" id="checkoutPhone" name="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="checkout-section">
+              <legend class="checkout-section-title">Fulfillment Method</legend>
+              <div class="fulfillment-options">
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="pickup" checked>
+                  <div class="fulfillment-card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="fulfillment-label">Pickup</span>
+                    <span class="fulfillment-desc">Pick up from bakery</span>
+                  </div>
+                </label>
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="delivery">
+                  <div class="fulfillment-card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="1" y="3" width="15" height="13"></rect>
+                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                      <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                      <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    <span class="fulfillment-label">Delivery</span>
+                    <span class="fulfillment-desc">To your address</span>
+                  </div>
+                </label>
+              </div>
+              <div class="delivery-address-fields" id="deliveryAddressFields" style="display:none;">
+                <div class="form-group">
+                  <label class="form-label" for="checkoutAddress">Street Address</label>
+                  <input class="form-input" type="text" id="checkoutAddress" name="address" placeholder="123 Main Street" autocomplete="street-address">
+                </div>
+                <div class="form-row form-row-3">
+                  <div class="form-group">
+                    <label class="form-label" for="checkoutCity">City</label>
+                    <input class="form-input" type="text" id="checkoutCity" name="city" placeholder="City" autocomplete="address-level2">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="checkoutState">State</label>
+                    <input class="form-input" type="text" id="checkoutState" name="state" placeholder="ST" autocomplete="address-level1">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="checkoutZip">ZIP</label>
+                    <input class="form-input" type="text" id="checkoutZip" name="zip" placeholder="12345" autocomplete="postal-code">
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="checkout-section">
+              <legend class="checkout-section-title">Payment</legend>
+              <div class="stripe-placeholder" id="stripeCardElement">
+                <div class="stripe-placeholder-inner">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                  </svg>
+                  <p class="stripe-placeholder-text">Secure card payment powered by Stripe</p>
+                  <p class="stripe-placeholder-subtext">Card fields will appear here when payment is ready</p>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="checkout-summary">
+            <div class="checkout-summary-card">
+              <h3 class="checkout-summary-title">Order Summary</h3>
+              <div class="checkout-summary-items" id="checkoutSummaryItems"></div>
+              <div class="checkout-summary-totals">
+                <div class="summary-row">
+                  <span>Subtotal</span>
+                  <span id="checkoutSubtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                  <span>Delivery</span>
+                  <span id="checkoutDeliveryFee">Free</span>
+                </div>
+                <div class="summary-row summary-row-total">
+                  <span>Total</span>
+                  <span id="checkoutTotal">$0.00</span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-place-order" id="placeOrderBtn" disabled>Place Order</button>
+              <p class="checkout-secure-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                </svg>
+                Secure checkout
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" aria-labelledby="hero-heading"
+             style="--hero-bg: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1400&h=800&fit=crop&q=80');">
+      <div class="hero-content container">
+        <div class="hero-logo">
+          <img src="Company Logo.png" alt="Betty Dough Bakery logo" width="160" height="160">
+        </div>
+        <h1 id="hero-heading" class="hero-title">
+          <span class="title-caps">SMALL-BATCH ARTISAN</span>
+          <span class="title-script">Sourdough</span>
+        </h1>
+        <p class="hero-description">Betty Dough Bakery LLC is dedicated to crafting fresh, flavorful baked goods using traditional methods and high-quality ingredients. Every item is made to order and baked on scheduled baking days to ensure peak freshness and quality.</p>
+        <a href="#menu" class="btn btn-primary btn-lg">View Menu</a>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Made to Order</span>
+            <span class="hero-meta-value">Baked Fresh Weekly</span>
+          </div>
+          <div class="hero-meta-item hero-meta-right">
+            <span class="hero-meta-label">Est Since</span>
+            <span class="hero-meta-value">2025</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BAKING SCHEDULE SECTION ===== -->
+    <section class="schedule-section" id="schedule">
+      <div class="container">
+        <div class="schedule-header">
+          <span class="schedule-label">Fresh from the Oven</span>
+          <h2 class="section-title">
+            <span class="title-caps">BAKING</span>
+            <span class="title-script">Schedule</span>
+          </h2>
+          <p class="schedule-intro">To maintain freshness and quality, all orders must be placed by midnight two days prior to the scheduled baking day.</p>
+          <div class="schedule-divider"></div>
+        </div>
+
+        <div class="schedule-grid">
+          <div class="schedule-card">
+            <div class="schedule-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 7c0-1.1.9-2 2-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"></path>
+                <path d="M3 7l9 6 9-6"></path>
+              </svg>
+            </div>
+            <h3 class="schedule-title">Loaves &amp; Bread Bowls</h3>
+            <p class="schedule-days"><span class="schedule-day-label">Wed</span> <span class="schedule-day-label">Thu</span> <span class="schedule-day-label">Fri</span> <span class="schedule-day-label">Sat</span></p>
+          </div>
+
+          <div class="schedule-card">
+            <div class="schedule-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+            </div>
+            <h3 class="schedule-title">Whole Wheat Loaves</h3>
+            <p class="schedule-days"><span class="schedule-day-label">Wed</span> <span class="schedule-day-label">Fri</span></p>
+          </div>
+
+          <div class="schedule-card">
+            <div class="schedule-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="3"></circle>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </div>
+            <h3 class="schedule-title">Bagels &amp; English Muffins</h3>
+            <p class="schedule-days"><span class="schedule-day-label">Wed</span> <span class="schedule-day-label">Thu</span> <span class="schedule-day-label">Fri</span></p>
+          </div>
+
+          <div class="schedule-card schedule-card-featured">
+            <span class="schedule-badge">Weekly Special</span>
+            <div class="schedule-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+              </svg>
+            </div>
+            <h3 class="schedule-title">Cinnamon Rolls</h3>
+            <p class="schedule-days"><span class="schedule-day-label">Friday Only</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MENU / SHOP SECTION ===== -->
+    <section class="shop" id="menu" aria-labelledby="shop-heading">
+      <div class="container">
+        <!-- Shop Header -->
+        <div class="shop-header">
+          <h2 id="shop-heading" class="section-title">
+            <span class="title-caps">OUR</span>
+            <span class="title-script">Menu</span>
+          </h2>
+
+          <div class="shop-controls">
+            <p class="shop-info-text">Made to order &mdash; baked<br>fresh on scheduled days</p>
+            <div class="view-toggle">
+              <button class="view-btn active" aria-label="Grid view">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+              </button>
+              <button class="view-btn" aria-label="List view">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="3" y="4" width="18" height="2" rx="1"></rect>
+                  <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+                  <rect x="3" y="18" width="18" height="2" rx="1"></rect>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="info-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <p><strong>Ordering:</strong> All orders must be placed by midnight two days prior to the scheduled baking day. Every item is baked fresh to order &mdash; no preservatives, no artificial flavors, just real sourdough made with care.</p>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="productGrid">
+
+          <!-- Artisan Sourdough -->
+          <article class="product-card" data-category="breads" data-product-id="sourdough">
+            <div class="product-image">
+              <img src="Artizan Bread.png"
+                   alt="Artisan Sourdough Bread"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">from $5</span>
+                <span class="product-weight">Mini / Medium / Large</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">Artisan Sourdough</h3>
+                <button class="btn btn-add" data-product-id="sourdough" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Sourdough Bagels -->
+          <article class="product-card" data-category="bagels" data-product-id="bagels">
+            <div class="product-image">
+              <img src="Bagels.png"
+                   alt="Sourdough Bagels"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">$15.00</span>
+                <span class="product-weight">6 pack</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">Sourdough Bagels</h3>
+                <button class="btn btn-add" data-product-id="bagels" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- English Muffins -->
+          <article class="product-card" data-category="muffins" data-product-id="muffins">
+            <div class="product-image">
+              <img src="english muffins.png"
+                   alt="English Muffins"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">$10.00</span>
+                <span class="product-weight">6 pack</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">English Muffins</h3>
+                <button class="btn btn-add" data-product-id="muffins" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bread Bowls -->
+          <article class="product-card" data-category="breads" data-product-id="breadbowls">
+            <div class="product-image">
+              <img src="Bread Bowl.png"
+                   alt="Sourdough Bread Bowls"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">$20.00</span>
+                <span class="product-weight">4 pack</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">Bread Bowls</h3>
+                <button class="btn btn-add" data-product-id="breadbowls" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Cinnamon Rolls -->
+          <article class="product-card" data-category="speciality" data-product-id="cinnamonrolls">
+            <div class="product-image">
+              <img src="Cinnimon Rolls.png"
+                   alt="Sourdough Cinnamon Rolls"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">$20.00</span>
+                <span class="product-weight">6 pack</span>
+                <span class="product-discount">Fri Only</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">Cinnamon Rolls</h3>
+                <button class="btn btn-add" data-product-id="cinnamonrolls" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Artisan Crackers -->
+          <article class="product-card" data-category="speciality" data-product-id="crackers">
+            <div class="product-image">
+              <img src="Artisan Crackers.png"
+                   alt="Artisan Sourdough Crackers"
+                   loading="lazy" width="400" height="400">
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-price">Ask</span>
+                <span class="product-weight">Assorted</span>
+              </div>
+              <div class="product-name-row">
+                <h3 class="product-name">Artisan Crackers</h3>
+                <button class="btn btn-add" data-product-id="crackers" aria-haspopup="dialog">Add</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-content">
+          <h2 class="section-title">
+            <span class="title-caps">HANDCRAFTED WITH</span>
+            <span class="title-script">Care</span>
+          </h2>
+          <div class="about-owner">
+            <div class="about-owner-photo">
+              <img src="Profile Pic.png" alt="Owner of Betty Dough Bakery" width="200" height="200">
+            </div>
+            <div class="about-owner-text">
+              <p class="about-text">We specialize in handcrafted sourdough breads, bagels, English muffins, bread bowls, crackers, and cinnamon rolls &mdash; offering both classic flavors and bold specialty combinations. Our structured baking schedule allows us to focus on consistency, craftsmanship, and minimizing waste while delivering a premium homemade product.</p>
+              <p class="about-text">Every order is baked fresh with intention, giving families and bread lovers artisan-quality bread without compromise.</p>
+              <p class="about-text about-local">Proudly local &mdash; serving <strong>Anthem</strong>, <strong>New River</strong>, <strong>Tramonto</strong>, <strong>Black Canyon City</strong>, and <strong>Cave Creek</strong>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCT OPTIONS MODAL ===== -->
+    <div class="modal-overlay" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-content">
+        <button class="modal-close" id="modalClose" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle"></h3>
+          <p class="modal-subtitle" id="modalSubtitle"></p>
+        </div>
+
+        <!-- Size selector (sourdough only) -->
+        <div class="modal-section" id="modalSizeSection">
+          <h4 class="modal-section-label">Size</h4>
+          <div class="modal-size-options" id="modalSizeOptions"></div>
+        </div>
+
+        <!-- Flavor selector -->
+        <div class="modal-section" id="modalFlavorSection">
+          <h4 class="modal-section-label">Flavor</h4>
+          <div class="modal-flavor-options" id="modalFlavorOptions"></div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="modal-section" id="modalQuantitySection">
+          <h4 class="modal-section-label">Quantity</h4>
+          <div class="modal-quantity">
+            <button class="qty-btn" id="qtyMinus" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-value" id="qtyValue">1</span>
+            <button class="qty-btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer">
+          <div class="modal-price-display">
+            <span class="modal-price-label">Total</span>
+            <span class="modal-price-value" id="modalPrice">$5.00</span>
+          </div>
+          <button class="btn btn-primary btn-add-cart" id="modalAddToCart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer" id="contact">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img src="Company Logo.png" alt="Betty Dough Bakery" width="80" height="80" class="footer-logo">
+            <p class="footer-tagline">BETTY DOUGH BAKERY LLC</p>
+            <p class="footer-desc">Small-batch artisan sourdough bakery crafting fresh, flavorful baked goods using traditional methods. Every item made to order since 2025.</p>
+          </div>
+          <div class="footer-col" id="footer-menu">
+            <h4 class="footer-heading">Menu</h4>
+            <ul>
+              <li><a href="#menu">Sourdough Breads</a></li>
+              <li><a href="#menu">Bagels &amp; Muffins</a></li>
+              <li><a href="#menu">Bread Bowls</a></li>
+              <li><a href="#menu">Cinnamon Rolls</a></li>
+              <li><a href="#menu">Artisan Crackers</a></li>
+            </ul>
+          </div>
+          <div class="footer-col" id="footer-info">
+            <h4 class="footer-heading">Info</h4>
+            <ul>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#schedule">Baking Schedule</a></li>
+              <li><a href="#menu">Flavors</a></li>
+              <li><a href="#contact">Order Info</a></li>
+            </ul>
+          </div>
+          <div class="footer-col" id="footer-flavors">
+            <h4 class="footer-heading">Popular Flavors</h4>
+            <ul>
+              <li><a href="#menu">Cheddar Jalape&ntilde;o</a></li>
+              <li><a href="#menu">Garlic Parmesan</a></li>
+              <li><a href="#menu">Everything Bagel</a></li>
+              <li><a href="#menu">Brown Sugar Cinnamon</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact">
+            <h4 class="footer-heading">Place an Order</h4>
+            <p>hello@bettydoughbakery.com</p>
+            <p class="footer-order-note">Orders must be placed by midnight, two days before baking day.</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Betty Dough Bakery LLC. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
