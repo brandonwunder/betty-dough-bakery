@@ -394,14 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ===== VIEW TOGGLE =====
-  const viewBtns = document.querySelectorAll('.view-btn');
-  viewBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      viewBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
 
   // ===== LENIS SMOOTH SCROLL =====
   let lenis;
