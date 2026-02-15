@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self';">
   <title>Betty Dough Bakery | Small-Batch Artisan Sourdough</title>
   <meta name="description" content="Betty Dough Bakery LLC - Small-batch artisan sourdough bakery crafting fresh breads, bagels, English muffins, cinnamon rolls, and more. Made to order with high-quality ingredients.">
 
@@ -208,32 +211,12 @@
             <fieldset class="checkout-section">
               <legend class="checkout-section-title">Payment</legend>
               <div class="payment-card-fields">
-                <div class="form-group">
-                  <label class="form-label" for="checkoutCardNumber">Card Number</label>
-                  <div class="card-input-wrapper">
-                    <input class="form-input card-number-input" type="text" id="checkoutCardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number">
-                    <div class="card-brands" aria-hidden="true">
-                      <svg viewBox="0 0 38 24" width="30" height="19"><rect x="0.5" y="0.5" width="37" height="23" rx="3" fill="#1A1F71"/><path d="M15.6 16.4l2.4-9.8h2.8l-2.4 9.8h-2.8zm11.2-9.5c-.6-.2-1.4-.4-2.5-.4-2.8 0-4.7 1.4-4.7 3.5 0 1.5 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.3 0 .7-.9 1-1.7 1-1.1 0-1.8-.2-2.7-.5l-.4-.2-.4 2.4c.7.3 1.9.6 3.2.6 2.9 0 4.8-1.4 4.9-3.6 0-1.2-.7-2.1-2.4-2.9-1-.5-1.6-.8-1.6-1.3 0-.4.5-.9 1.6-.9.9 0 1.6.2 2.1.4l.3.1.3-2.4z" fill="#fff"/></svg>
-                      <svg viewBox="0 0 38 24" width="30" height="19"><rect x="0.5" y="0.5" width="37" height="23" rx="3" fill="#000"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.3a7 7 0 010 9.4 7 7 0 000-9.4z" fill="#FF5F00"/></svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-row form-row-3">
-                  <div class="form-group" style="flex:2">
-                    <label class="form-label" for="checkoutCardExpiry">Expiration</label>
-                    <input class="form-input" type="text" id="checkoutCardExpiry" placeholder="MM / YY" maxlength="7" inputmode="numeric" autocomplete="cc-exp">
-                  </div>
-                  <div class="form-group" style="flex:1">
-                    <label class="form-label" for="checkoutCardCVC">CVC</label>
-                    <input class="form-input" type="text" id="checkoutCardCVC" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
-                  </div>
-                </div>
-                <p class="payment-secure-badge">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <p class="payment-notice" style="color: var(--text-secondary, #999); font-size: 0.95rem; line-height: 1.5; padding: 1rem 0;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 6px;">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0110 0v4"></path>
                   </svg>
-                  Encrypted &amp; secure &mdash; powered by Stripe
+                  Payment will be collected upon order confirmation. We will contact you with a secure payment link.
                 </p>
               </div>
             </fieldset>
@@ -259,11 +242,7 @@
               </div>
               <button class="btn btn-primary btn-place-order" id="placeOrderBtn" disabled>Place Order</button>
               <p class="checkout-secure-note">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0110 0v4"></path>
-                </svg>
-                Secure checkout
+                No payment is taken now &mdash; we&rsquo;ll send a secure link after confirming your order.
               </p>
             </div>
           </div>
@@ -743,11 +722,11 @@
   </main>
 
   <!-- Animation Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/lenis@latest/dist/lenis.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.17/dist/lenis.min.js" integrity="sha384-4EgXbGZLDwcPHcRGrHOxm1OvumWUqhr/ts6eapdZnak6ORZAsSE3fMd0niykaSkw" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" integrity="sha384-xb96EMJeax+NLXMC88ZBa1xAeAW+kn+horHh/zFlbMLG2UPWhMJJSlv7fi57hS+Q" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" integrity="sha384-0k1dj5tm+KUH/4vkNk/i90XsjDA8Ltmt+ybcrFoH4t0dgv/WZsPpVBnkhcroX8UL" crossorigin="anonymous" defer></script>
 
   <script src="js/orderStorage.js" defer></script>
   <script src="js/main.js" defer></script>

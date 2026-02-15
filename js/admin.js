@@ -3,6 +3,13 @@
 // Order management and calendar view
 // ============================================
 
+function esc(str) {
+  if (str == null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(str);
+  return d.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== AUTHENTICATION CHECK =====
@@ -107,26 +114,29 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       : 'Not set';
 
+    const safeId = esc(order.orderId);
+    const photo = OrderStorage.getPhoto(order.orderId);
+
     div.innerHTML = `
       <div class="order-card-header">
-        <div class="order-id">${order.orderId}</div>
+        <div class="order-id">${safeId}</div>
         <span class="order-status" style="background-color: ${statusColors[order.status]}20; color: ${statusColors[order.status]}">
-          ${order.status.replace('-', ' ')}
+          ${esc(order.status.replace('-', ' '))}
         </span>
       </div>
 
       <div class="order-customer-row">
         <div class="order-customer">
-          <div class="order-customer-name">${order.customer.name}</div>
-          <div class="order-customer-contact">${order.customer.email}</div>
-          <div class="order-customer-contact">${order.customer.phone}</div>
+          <div class="order-customer-name">${esc(order.customer.name)}</div>
+          <div class="order-customer-contact">${esc(order.customer.email)}</div>
+          <div class="order-customer-contact">${esc(order.customer.phone)}</div>
         </div>
-        <div class="order-photo" data-order-id="${order.orderId}">
-          ${OrderStorage.getPhoto(order.orderId)
-            ? `<img src="${OrderStorage.getPhoto(order.orderId)}" alt="Baked goods photo" class="order-photo-img">
-               <button class="order-photo-remove" data-order-id="${order.orderId}" title="Remove photo">&times;</button>`
+        <div class="order-photo" data-order-id="${safeId}">
+          ${photo
+            ? `<img src="${esc(photo)}" alt="Baked goods photo" class="order-photo-img">
+               <button class="order-photo-remove" data-order-id="${safeId}" title="Remove photo">&times;</button>`
             : `<label class="order-photo-upload" title="Add photo of baked goods">
-                <input type="file" accept="image/*" class="order-photo-input" data-order-id="${order.orderId}" hidden>
+                <input type="file" accept="image/jpeg,image/png,image/webp" class="order-photo-input" data-order-id="${safeId}" hidden>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                   <circle cx="8.5" cy="8.5" r="1.5"></circle>
@@ -148,28 +158,28 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div class="order-items-summary">
-        ${order.items.length} item${order.items.length !== 1 ? 's' : ''} • $${order.total.toFixed(2)}
+        ${order.items.length} item${order.items.length !== 1 ? 's' : ''} &bull; $${Number(order.total).toFixed(2)}
       </div>
 
       <div class="order-meta">
         <div class="order-date">
           <span class="order-date-label">Ordered:</span>
-          <span>${dateStr} at ${timeStr}</span>
+          <span>${esc(dateStr)} at ${esc(timeStr)}</span>
         </div>
         <div class="order-completion">
           <span class="order-date-label">Completion:</span>
-          <span>${completionDateStr}</span>
+          <span>${esc(completionDateStr)}</span>
         </div>
       </div>
 
       <div class="order-actions">
-        <button class="btn btn-sm btn-secondary view-details-btn" data-order-id="${order.orderId}">
+        <button class="btn btn-sm btn-secondary view-details-btn" data-order-id="${safeId}">
           View Details
         </button>
-        <button class="btn btn-sm btn-secondary set-date-btn" data-order-id="${order.orderId}">
+        <button class="btn btn-sm btn-secondary set-date-btn" data-order-id="${safeId}">
           Set Date
         </button>
-        <select class="status-select" data-order-id="${order.orderId}">
+        <select class="status-select" data-order-id="${safeId}">
           <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
           <option value="in-progress" ${order.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
           <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
@@ -247,38 +257,40 @@ document.addEventListener('DOMContentLoaded', () => {
     let itemsHTML = order.items.map(item => `
       <div class="detail-item">
         <div>
-          <div class="detail-item-name">${item.displayName || item.name}</div>
-          ${item.flavor ? `<div class="detail-item-meta">Flavor: ${item.flavor}</div>` : ''}
-          ${item.size ? `<div class="detail-item-meta">Size: ${item.size}</div>` : ''}
+          <div class="detail-item-name">${esc(item.displayName || item.name)}</div>
+          ${item.flavor ? `<div class="detail-item-meta">Flavor: ${esc(item.flavor)}</div>` : ''}
+          ${item.size ? `<div class="detail-item-meta">Size: ${esc(item.size)}</div>` : ''}
         </div>
         <div class="detail-item-price">
-          <div>Qty: ${item.quantity}</div>
-          <div>$${((item.unitPrice || 0) * item.quantity).toFixed(2)}</div>
+          <div>Qty: ${Number(item.quantity)}</div>
+          <div>$${((Number(item.unitPrice) || 0) * Number(item.quantity)).toFixed(2)}</div>
         </div>
       </div>
     `).join('');
 
+    const safeId = esc(order.orderId);
+
     content.innerHTML = `
       <div class="order-detail-header">
-        <h2>${order.orderId}</h2>
+        <h2>${safeId}</h2>
         <span class="order-status" style="background-color: ${getStatusColor(order.status)}20; color: ${getStatusColor(order.status)}">
-          ${order.status.replace('-', ' ')}
+          ${esc(order.status.replace('-', ' '))}
         </span>
       </div>
 
       <div class="detail-section">
         <h3>Customer</h3>
-        <p><strong>${order.customer.name}</strong></p>
-        <p>${order.customer.email}</p>
-        <p>${order.customer.phone}</p>
+        <p><strong>${esc(order.customer.name)}</strong></p>
+        <p>${esc(order.customer.email)}</p>
+        <p>${esc(order.customer.phone)}</p>
       </div>
 
       <div class="detail-section">
         <h3>Fulfillment</h3>
         <p><strong>${order.fulfillment.method === 'pickup' ? 'Pickup' : 'Delivery'}</strong></p>
         ${order.fulfillment.address ? `
-          <p>${order.fulfillment.address.street}</p>
-          <p>${order.fulfillment.address.city}, ${order.fulfillment.address.state} ${order.fulfillment.address.zip}</p>
+          <p>${esc(order.fulfillment.address.street)}</p>
+          <p>${esc(order.fulfillment.address.city)}, ${esc(order.fulfillment.address.state)} ${esc(order.fulfillment.address.zip)}</p>
         ` : ''}
       </div>
 
@@ -289,20 +301,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       <div class="detail-total">
         <span>Total:</span>
-        <span>$${order.total.toFixed(2)}</span>
+        <span>$${Number(order.total).toFixed(2)}</span>
       </div>
 
       <div class="detail-section">
         <h3>Timeline</h3>
-        <p><strong>Ordered:</strong> ${dateStr}</p>
-        ${order.completionDate ? `<p><strong>Completion Date:</strong> ${new Date(order.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>` : ''}
+        <p><strong>Ordered:</strong> ${esc(dateStr)}</p>
+        ${order.completionDate ? `<p><strong>Completion Date:</strong> ${esc(new Date(order.completionDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }))}</p>` : ''}
       </div>
 
       <div class="detail-actions">
-        <button class="btn btn-primary" id="detailSetDate" data-order-id="${order.orderId}">
+        <button class="btn btn-primary" id="detailSetDate" data-order-id="${safeId}">
           ${order.completionDate ? 'Change' : 'Set'} Completion Date
         </button>
-        <button class="btn btn-secondary" id="detailDelete" data-order-id="${order.orderId}">
+        <button class="btn btn-secondary" id="detailDelete" data-order-id="${safeId}">
           Delete Order
         </button>
       </div>
@@ -449,6 +461,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.classList.contains('order-photo-input')) {
         const file = e.target.files[0];
         if (!file) return;
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) { alert('Only JPEG, PNG, or WebP images are allowed.'); e.target.value = ''; return; }
+        if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5 MB.'); e.target.value = ''; return; }
         const orderId = e.target.dataset.orderId;
         const reader = new FileReader();
         reader.onload = () => {

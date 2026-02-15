@@ -2,6 +2,13 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.scrollTo(0, 0);
 
+function esc(str) {
+  if (str == null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(str);
+  return d.innerHTML;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== PRODUCT DATA =====
@@ -1020,17 +1027,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       div.innerHTML = `
         <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          ${details.length ? `<div class="cart-item-details">${details.join(' \u2022 ')}</div>` : ''}
+          <div class="cart-item-name">${esc(item.name)}</div>
+          ${details.length ? `<div class="cart-item-details">${details.map(d => esc(d)).join(' \u2022 ')}</div>` : ''}
           <div class="cart-item-controls">
             <button class="cart-item-qty-btn" data-action="decrease" data-index="${index}" aria-label="Decrease quantity">&minus;</button>
-            <span class="cart-item-qty">${item.quantity}</span>
+            <span class="cart-item-qty">${Number(item.quantity)}</span>
             <button class="cart-item-qty-btn" data-action="increase" data-index="${index}" aria-label="Increase quantity">+</button>
             <button class="cart-item-remove" data-index="${index}">Remove</button>
           </div>
         </div>
         <div class="cart-item-price">
-          ${item.unitPrice ? `<div class="cart-item-unit-price">$${item.unitPrice.toFixed(2)} ea</div>` : ''}
+          ${item.unitPrice ? `<div class="cart-item-unit-price">$${Number(item.unitPrice).toFixed(2)} ea</div>` : ''}
           <div class="cart-item-line-total">${item.unitPrice ? '$' + lineTotal.toFixed(2) : 'TBD'}</div>
         </div>
       `;
@@ -1124,8 +1131,8 @@ document.addEventListener('DOMContentLoaded', () => {
       div.className = 'checkout-summary-item';
       div.innerHTML = `
         <div>
-          <div class="checkout-summary-item-name">${item.displayName || item.name}</div>
-          <div class="checkout-summary-item-qty">Qty: ${item.quantity}${item.unit ? ' (' + item.unit + ')' : ''}</div>
+          <div class="checkout-summary-item-name">${esc(item.displayName || item.name)}</div>
+          <div class="checkout-summary-item-qty">Qty: ${Number(item.quantity)}${item.unit ? ' (' + esc(item.unit) + ')' : ''}</div>
         </div>
         <span class="checkout-summary-item-price">${item.unitPrice ? '$' + lineTotal.toFixed(2) : 'TBD'}</span>
       `;
@@ -1190,32 +1197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     errorEl.classList.add('visible');
   }
 
-  // Card number formatting (auto-space every 4 digits)
-  const cardNumberInput = document.getElementById('checkoutCardNumber');
-  if (cardNumberInput) {
-    cardNumberInput.addEventListener('input', () => {
-      let v = cardNumberInput.value.replace(/\D/g, '').slice(0, 16);
-      cardNumberInput.value = v.replace(/(.{4})/g, '$1 ').trim();
-    });
-  }
-
-  // Expiry formatting (auto-slash)
-  const cardExpiryInput = document.getElementById('checkoutCardExpiry');
-  if (cardExpiryInput) {
-    cardExpiryInput.addEventListener('input', () => {
-      let v = cardExpiryInput.value.replace(/\D/g, '').slice(0, 4);
-      if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
-      cardExpiryInput.value = v;
-    });
-  }
-
-  // CVC: digits only
-  const cardCVCInput = document.getElementById('checkoutCardCVC');
-  if (cardCVCInput) {
-    cardCVCInput.addEventListener('input', () => {
-      cardCVCInput.value = cardCVCInput.value.replace(/\D/g, '').slice(0, 4);
-    });
-  }
 
   // Enable/disable Place Order based on required fields
   document.querySelectorAll('#checkoutName, #checkoutEmail, #checkoutPhone').forEach(input => {
@@ -1243,7 +1224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         address: null
       },
       items: cart.map(item => ({...item})), // Deep copy
-      total: parseFloat(cartSubtotal.textContent.replace('$', ''))
+      total: cart.reduce((sum, item) => sum + (Number(item.unitPrice) || 0) * Number(item.quantity), 0)
     };
 
     // Add delivery address if applicable
@@ -1265,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show success message with order ID
     const orderMessage = savedOrder
       ? `Thank you for your order! Your order number is ${savedOrder.orderId}. We will contact you to confirm.`
-      : 'Thank you for your order! Stripe payment integration coming soon. We will contact you to confirm your order.';
+      : 'Thank you for your order! We will contact you to confirm your order and send a secure payment link.';
     alert(orderMessage);
 
     // Clear cart
@@ -1337,12 +1318,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (adminLoginForm) {
-    adminLoginForm.addEventListener('submit', (e) => {
+    adminLoginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('adminUsername').value.trim();
       const password = document.getElementById('adminPassword').value;
 
-      if (typeof OrderStorage !== 'undefined' && OrderStorage.login(username, password)) {
+      if (typeof OrderStorage !== 'undefined' && await OrderStorage.login(username, password)) {
         closeAdminLoginModal();
         window.location.href = 'admin.html';
       } else {

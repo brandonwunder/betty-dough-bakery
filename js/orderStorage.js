@@ -92,34 +92,38 @@ const OrderStorage = {
 
   // ===== AUTHENTICATION =====
 
-  /**
-   * Authenticate user with hardcoded credentials
-   * @param {String} username
-   * @param {String} password
-   * @returns {Boolean} True if credentials match
-   */
-  login(username, password) {
-    if (username === 'bettydough' && password === 'sourdough2025!') {
-      const token = 'session-' + Date.now();
-      localStorage.setItem(this.AUTH_KEY, token);
+  _UNAME_HASH: '6c8124c1210fc2bbcccab110b54542a8896ef878d22e1bf3ef6dda81cf16b531',
+  _PASS_HASH: '000fc514f9f800eb1951f19b11e313df4e9434a797ff2fd6c4c7fd3f138221c9',
+  _SESSION_TTL: 24 * 60 * 60 * 1000, // 24 hours
+
+  async _sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  },
+
+  async login(username, password) {
+    const [uHash, pHash] = await Promise.all([this._sha256(username), this._sha256(password)]);
+    if (uHash === this._UNAME_HASH && pHash === this._PASS_HASH) {
+      const session = { token: crypto.randomUUID(), expires: Date.now() + this._SESSION_TTL };
+      localStorage.setItem(this.AUTH_KEY, JSON.stringify(session));
       return true;
     }
     return false;
   },
 
-  /**
-   * Clear the session token
-   */
   logout() {
     localStorage.removeItem(this.AUTH_KEY);
   },
 
-  /**
-   * Check if user is currently authenticated
-   * @returns {Boolean}
-   */
   isAuthenticated() {
-    return !!localStorage.getItem(this.AUTH_KEY);
+    const data = localStorage.getItem(this.AUTH_KEY);
+    if (!data) return false;
+    try {
+      const session = JSON.parse(data);
+      if (session.expires && session.expires > Date.now()) return true;
+      this.logout();
+      return false;
+    } catch { this.logout(); return false; }
   },
 
   /**
