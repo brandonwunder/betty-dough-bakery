@@ -121,6 +121,26 @@
     </main>
   </div>
 
+  <!-- Date Picker Modal -->
+  <div class="modal-overlay" id="datePickerModal">
+    <div class="modal-content date-picker-modal">
+      <button class="modal-close" id="datePickerClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <h3 class="date-picker-title">Set Completion Date</h3>
+      <p class="date-picker-subtitle">Choose when this order will be ready</p>
+      <input type="date" class="date-picker-input" id="datePickerInput">
+      <div class="date-picker-error" id="datePickerError"></div>
+      <div class="date-picker-actions">
+        <button class="btn btn-secondary btn-sm" id="datePickerCancel">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="datePickerConfirm">Set Date</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Order Detail Modal -->
   <div class="modal-overlay" id="orderDetailModal">
     <div class="modal-content order-detail-modal">

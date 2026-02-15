@@ -314,34 +314,63 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('orderDetailModal').classList.remove('active');
   }
 
-  // ===== SET COMPLETION DATE =====
-  function setCompletionDate(orderId) {
+  // ===== SET COMPLETION DATE (custom modal) =====
+  const datePickerModal = document.getElementById('datePickerModal');
+  const datePickerInput = document.getElementById('datePickerInput');
+  const datePickerError = document.getElementById('datePickerError');
+  let datePickerOrderId = null;
+
+  function openDatePicker(orderId) {
+    datePickerOrderId = orderId;
     const order = allOrders.find(o => o.orderId === orderId);
-    const currentDate = order.completionDate
+    datePickerInput.value = order.completionDate
       ? new Date(order.completionDate).toISOString().split('T')[0]
       : '';
+    datePickerError.textContent = '';
+    datePickerModal.classList.add('active');
+  }
 
-    const dateStr = prompt('Enter completion date (YYYY-MM-DD):', currentDate);
-    if (!dateStr) return;
+  function closeDatePicker() {
+    datePickerModal.classList.remove('active');
+    datePickerOrderId = null;
+  }
 
+  function confirmDatePicker() {
+    const dateStr = datePickerInput.value;
+    if (!dateStr) {
+      datePickerError.textContent = 'Please select a date';
+      return;
+    }
     const date = new Date(dateStr + 'T00:00:00');
     if (isNaN(date.getTime())) {
-      alert('Invalid date format. Please use YYYY-MM-DD');
+      datePickerError.textContent = 'Invalid date';
       return;
     }
 
-    OrderStorage.updateOrder(orderId, { completionDate: date.getTime() });
+    OrderStorage.updateOrder(datePickerOrderId, { completionDate: date.getTime() });
     loadOrders();
     renderOrders();
-    if (calendar) {
-      calendar.refetchEvents();
+    if (calendar) calendar.refetchEvents();
+
+    // Refresh detail modal if open
+    const detailModal = document.getElementById('orderDetailModal');
+    if (detailModal.classList.contains('active')) {
+      showOrderDetail(datePickerOrderId);
     }
 
-    // Refresh modal if open
-    const modal = document.getElementById('orderDetailModal');
-    if (modal.classList.contains('active')) {
-      showOrderDetail(orderId);
-    }
+    closeDatePicker();
+  }
+
+  document.getElementById('datePickerConfirm').addEventListener('click', confirmDatePicker);
+  document.getElementById('datePickerCancel').addEventListener('click', closeDatePicker);
+  document.getElementById('datePickerClose').addEventListener('click', closeDatePicker);
+  datePickerModal.addEventListener('click', (e) => {
+    if (e.target === datePickerModal) closeDatePicker();
+  });
+
+  // Keep old function name for existing event delegation
+  function setCompletionDate(orderId) {
+    openDatePicker(orderId);
   }
 
   // ===== EVENT LISTENERS =====
