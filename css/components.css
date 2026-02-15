@@ -710,7 +710,36 @@
    ======================================== */
 
 .shop {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-3xl) 0 var(--space-4xl);
+}
+
+.shop-bg {
+  position: absolute;
+  inset: -10%;
+  background-image: url('../Kitchen.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  filter: grayscale(30%);
+  z-index: 0;
+}
+
+.shop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--color-bg-primary) 0%, transparent 15%, transparent 75%, var(--color-bg-primary) 100%),
+    radial-gradient(ellipse at center, transparent 20%, var(--color-bg-primary) 75%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.shop .container {
+  position: relative;
+  z-index: 2;
 }
 
 .shop-header {
