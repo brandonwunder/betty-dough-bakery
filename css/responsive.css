@@ -10,6 +10,11 @@
 
   .schedule-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: clamp(2rem, 3vw, 3rem);
+  }
+
+  .schedule-image-wrapper {
+    max-width: clamp(180px, 20vw, 240px);
   }
 
   .schedule-picture-wrapper {
@@ -126,9 +131,8 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .schedule-card-inner {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  .schedule-image-wrapper {
+    max-width: clamp(180px, 20vw, 240px);
   }
 
   .schedule-picture-wrapper {
@@ -144,11 +148,11 @@
   .schedule-blob-1 { width: 50vw; height: 50vw; }
   .schedule-blob-2 { display: none; }
 
-  /* Reduce day badge size on tablet for better readability */
-  .schedule-day {
-    width: 48px;
-    height: 48px;
-    font-size: 0.75rem;
+  /* Compact day dots on tablet */
+  .day-dot {
+    width: 36px;
+    height: 36px;
+    font-size: 0.65rem;
   }
 
 
@@ -295,27 +299,35 @@
 
   .schedule-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-3xl);
   }
 
+  .schedule-image-wrapper {
+    max-width: 240px;
+  }
 
-  .schedule-card-inner {
-    padding: var(--space-lg) var(--space-md);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+  .schedule-atmosphere {
+    width: 160%;
+    height: 160%;
   }
 
   .schedule-picture-wrapper {
     width: 120px;
   }
 
-  .schedule-day {
-    width: 40px;
-    height: 40px;
-    font-size: 0.7rem;
-    border-radius: 8px;
+  .day-dot {
+    width: 36px;
+    height: 36px;
+    font-size: 0.65rem;
   }
 
-  .schedule-badge {
+  /* Reduce float distance on mobile */
+  @keyframes floatSoft {
+    0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+    50% { transform: translateY(-10px) rotate(0.5deg); }
+  }
+
+  .schedule-featured-badge {
     font-size: 0.65rem;
     padding: 0.25rem 0.6rem;
   }
@@ -359,7 +371,7 @@
 /* Touch devices — disable tilt glare, reduce motion */
 @media (hover: none) and (pointer: coarse) {
   .product-card:hover,
-  .schedule-card:hover {
+  .schedule-item:hover {
     transform: none;
   }
 
@@ -378,11 +390,21 @@
   .hero-cta::after { display: none; }
   .hero-logo::before { animation: none; opacity: 0; }
 
-  /* Schedule: disable interactive decorations on touch */
-  .schedule-card::after { display: none; }
-  .schedule-card::before { animation: none; }
-  .schedule-featured-glow { animation: none; opacity: 0.5; }
-  .schedule-order-btn::after { display: none; }
+  /* Schedule: disable floating animation on touch */
+  .schedule-image-wrapper {
+    animation: none;
+  }
+
+  /* Simplify atmosphere on touch */
+  .schedule-atmosphere {
+    opacity: 0.5;
+    animation: none;
+  }
+
+  /* Disable badge animation on touch */
+  .schedule-featured-badge {
+    animation: none;
+  }
 }
 
 /* Reduced motion — respect user preference */
@@ -415,19 +437,15 @@
     opacity: 0.3;
   }
 
-  .schedule-badge {
+  .schedule-featured-badge {
     animation: none;
   }
 
-  .schedule-card::before {
+  .schedule-image-wrapper {
     animation: none;
   }
 
-  .schedule-card::after {
-    display: none;
-  }
-
-  .schedule-featured-glow {
+  .schedule-atmosphere {
     animation: none;
     opacity: 0.6;
   }

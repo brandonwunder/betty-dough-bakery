@@ -645,12 +645,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })();
 
-    // --- Schedule Section: Premium Entrance ---
+    // --- Schedule Section: Floating Cartoon Entrance ---
     if (!prefersReducedMotion) {
       var schedTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.schedule-section',
-          start: 'top 78%',
+          start: 'top 75%',
         }
       });
 
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'power2.out'
       }, '-=0.2');
 
-      // SplitText char reveal for "Schedule" (rotateY flip — distinct from hero's rotateX)
+      // SplitText char reveal for "Schedule"
       var scheduleScript = document.querySelector('.schedule-section .section-title .title-script');
       if (typeof SplitText !== 'undefined' && scheduleScript) {
         var schedSplit = new SplitText(scheduleScript, { type: 'chars' });
@@ -690,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, '-=0.3');
       }
 
-      // Phase 1b: Schedule picture slides in from right with bounce
+      // Schedule picture slides in from right with bounce
       schedTl.from('.schedule-picture-wrapper', {
         x: 100,
         opacity: 0,
@@ -699,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'back.out(1.5)'
       }, '-=0.3');
 
-      // Phase 2: Intro text word reveal
+      // Intro text word reveal
       var schedIntro = document.querySelector('.schedule-intro');
       if (typeof SplitText !== 'undefined' && schedIntro) {
         var introSplit = new SplitText(schedIntro, { type: 'words' });
@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, '-=0.2');
       }
 
-      // Phase 3: Divider grows from center
+      // Divider grows from center
       schedTl.from('.schedule-divider', {
         scaleX: 0,
         duration: 0.6,
@@ -727,82 +727,75 @@ document.addEventListener('DOMContentLoaded', () => {
         transformOrigin: 'center center'
       }, '-=0.1');
 
-      // Phase 4: Regular cards bounce in with playful rotation
-      var regularCards = document.querySelectorAll('.schedule-card:not(.schedule-card-featured)');
-      schedTl.from(regularCards, {
-        y: 80,
+      // Phase 3: Atmosphere glows fade in with scale
+      schedTl.from('.schedule-atmosphere', {
         opacity: 0,
-        scale: 0.9,
-        rotation: -3,
-        filter: 'blur(6px)',
+        scale: 0.5,
         duration: 1.2,
         stagger: 0.15,
-        ease: 'elastic.out(1, 0.6)'
-      }, '-=0.2');
+        ease: 'power2.out'
+      }, '-=0.3');
 
-      // Phase 4a: Day badges animate in sequentially (wave effect)
-      var dayBadges = document.querySelectorAll('.schedule-card .schedule-day');
-      schedTl.from(dayBadges, {
+      // Phase 4: Images materialize with elastic bounce
+      schedTl.from('.schedule-image-wrapper', {
+        opacity: 0,
+        scale: 0.7,
+        rotation: -15,
+        filter: 'blur(12px)',
+        duration: 1.4,
+        stagger: 0.18,
+        ease: 'elastic.out(1, 0.7)',
+        onComplete: function() {
+          // Clear filter after animation completes to use CSS-defined drops
+          gsap.set('.schedule-image-wrapper', { clearProps: 'filter' });
+        }
+      }, '-=0.8');
+
+      // Date ribbons slide up from below
+      schedTl.from('.schedule-date-ribbon', {
+        y: 40,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power3.out'
+      }, '-=1.0');
+
+      // Day dots pop in sequentially
+      schedTl.from('.day-dot', {
         scale: 0,
         opacity: 0,
         rotation: 180,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: 'back.out(2)'
-      }, '-=0.3');
-
-      // Phase 5: Featured card enters from right with more flair
-      schedTl.from('.schedule-card-featured', {
-        x: 80,
-        opacity: 0,
-        scale: 0.9,
-        filter: 'blur(8px)',
-        duration: 1,
-        ease: 'power3.out'
+        duration: 0.5,
+        stagger: 0.04,
+        ease: 'back.out(2.5)'
       }, '-=0.5');
 
-      // Phase 5a: Featured card gets continuous subtle pulse after entrance
-      schedTl.to('.schedule-card-featured', {
-        scale: 1.02,
-        duration: 3,
-        yoyo: true,
-        repeat: -1,
-        ease: 'sine.inOut'
-      }, '-=0.5');
-
-      // Phase 6: Badge pops in
-      schedTl.from('.schedule-badge', {
+      // Featured badge bounces in
+      schedTl.from('.schedule-featured-badge', {
         scale: 0,
+        rotation: -180,
         opacity: 0,
-        duration: 0.4,
+        duration: 0.6,
         ease: 'back.out(3)'
       }, '-=0.3');
 
-      // Phase 6b: Availability text fades in
-      schedTl.from('.schedule-availability', {
-        y: 10,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: 'power2.out'
-      }, '-=0.4');
-
-      // Phase 7: Ambient blobs fade in
+      // Ambient blobs fade in
       schedTl.from('.schedule-blob', {
         opacity: 0,
         scale: 0.5,
         duration: 1.5,
         stagger: 0.2,
         ease: 'power2.out'
-      }, '-=0.8');
+      }, '-=1.2');
 
     } else {
       // Reduced motion: make schedule elements visible
       gsap.set([
         '.schedule-label', '.schedule-section .section-title',
         '.schedule-intro', '.schedule-divider',
-        '.schedule-card', '.schedule-card-featured',
-        '.schedule-badge', '.schedule-blob'
+        '.schedule-item', '.schedule-atmosphere',
+        '.schedule-image-wrapper', '.schedule-date-ribbon',
+        '.schedule-featured-badge', '.schedule-blob'
       ], { opacity: 1, y: 0, x: 0, scale: 1, filter: 'blur(0px)' });
     }
 
@@ -937,13 +930,13 @@ document.addEventListener('DOMContentLoaded', () => {
         scale: 1.02,
       });
 
-      // Schedule cards — enhanced tilt with scale
-      VanillaTilt.init(document.querySelectorAll('.schedule-card'), {
-        max: 6,
+      // Schedule items — enhanced tilt with scale
+      VanillaTilt.init(document.querySelectorAll('.schedule-item'), {
+        max: 8,
         speed: 400,
         glare: true,
-        'max-glare': 0.12,
-        scale: 1.02,
+        'max-glare': 0.18,
+        scale: 1.03,
       });
     }
   }
