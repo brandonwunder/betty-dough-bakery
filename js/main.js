@@ -588,6 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
         y: -40,
         opacity: 0.3,
         ease: 'none',
+        overwrite: 'auto',
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
