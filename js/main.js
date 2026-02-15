@@ -190,22 +190,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== CLOSE MODAL =====
   function closeModal() {
+    if (!modalOverlay.classList.contains('active')) return;
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    startLenis();
+
     if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+      gsap.killTweensOf(modalContent);
       gsap.to(modalContent, {
         scale: 0.95, opacity: 0, y: 10, duration: 0.2, ease: 'power2.in',
         onComplete: () => {
-          modalOverlay.classList.remove('active');
-          document.body.style.overflow = '';
-          startLenis();
-          gsap.set(modalContent, { clearProps: 'all' });
           const triggerBtn = document.querySelector(`.btn-add[data-product-id="${modalState.productId}"]`);
           if (triggerBtn) triggerBtn.focus();
         }
       });
     } else {
-      modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-      startLenis();
       const triggerBtn = document.querySelector(`.btn-add[data-product-id="${modalState.productId}"]`);
       if (triggerBtn) triggerBtn.focus();
     }

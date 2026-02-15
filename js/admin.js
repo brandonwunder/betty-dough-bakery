@@ -10,6 +10,16 @@ function esc(str) {
   return d.innerHTML;
 }
 
+// Product name → local image file mapping (matches index.html product images)
+const PRODUCT_IMAGES = {
+  'Artisan Sourdough': 'Artizan Bread.png',
+  'Sourdough Bagels': 'Bagels.png',
+  'English Muffins': 'english muffins.png',
+  'Bread Bowls': 'Bread Bowl.png',
+  'Cinnamon Rolls': 'Cinnimon Rolls.png',
+  'Artisan Crackers': 'Artisan Crackers.png'
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== AUTHENTICATION CHECK =====
@@ -115,7 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
       : 'Not set';
 
     const safeId = esc(order.orderId);
-    const photo = OrderStorage.getPhoto(order.orderId);
+
+    // Build unique product thumbnails
+    const uniqueNames = [...new Set(order.items.map(i => i.name))];
+    const thumbsHtml = uniqueNames
+      .filter(name => PRODUCT_IMAGES[name])
+      .map(name => `<img src="${esc(PRODUCT_IMAGES[name])}" alt="${esc(name)}" class="order-thumb">`)
+      .join('');
+
+    // Build item detail lines
+    const itemLinesHtml = order.items.map(item => {
+      let line = `${Number(item.quantity)}&times; ${esc(item.name)}`;
+      const details = [];
+      if (item.size) details.push(esc(item.size));
+      if (item.flavor) details.push(esc(item.flavor));
+      if (details.length) line += ` — ${details.join(', ')}`;
+      return `<div class="order-item-line">${line}</div>`;
+    }).join('');
 
     div.innerHTML = `
       <div class="order-card-header">
@@ -131,21 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="order-customer-contact">${esc(order.customer.email)}</div>
           <div class="order-customer-contact">${esc(order.customer.phone)}</div>
         </div>
-        <div class="order-photo" data-order-id="${safeId}">
-          ${photo
-            ? `<img src="${esc(photo)}" alt="Baked goods photo" class="order-photo-img">
-               <button class="order-photo-remove" data-order-id="${safeId}" title="Remove photo">&times;</button>`
-            : `<label class="order-photo-upload" title="Add photo of baked goods">
-                <input type="file" accept="image/jpeg,image/png,image/webp" class="order-photo-input" data-order-id="${safeId}" hidden>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                  <polyline points="21 15 16 10 5 21"></polyline>
-                </svg>
-                <span>Add Photo</span>
-              </label>`
-          }
-        </div>
+        ${thumbsHtml ? `<div class="order-product-thumbs">${thumbsHtml}</div>` : ''}
       </div>
 
       <div class="order-fulfillment">
@@ -158,7 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div class="order-items-summary">
-        ${order.items.length} item${order.items.length !== 1 ? 's' : ''} &bull; $${Number(order.total).toFixed(2)}
+        ${itemLinesHtml}
+        <div class="order-items-total">$${Number(order.total).toFixed(2)}</div>
       </div>
 
       <div class="order-meta">
@@ -399,6 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Keep old function name for existing event delegation
   function setCompletionDate(orderId) {
+    closeOrderDetailModal();
     openDatePicker(orderId);
   }
 
@@ -445,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Status change & photo upload
+    // Status change
     document.getElementById('ordersGrid').addEventListener('change', (e) => {
       if (e.target.classList.contains('status-select')) {
         const orderId = e.target.dataset.orderId;
@@ -455,44 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStats();
         renderOrders();
         if (calendar) calendar.refetchEvents();
-      }
-
-      // Photo upload
-      if (e.target.classList.contains('order-photo-input')) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!allowedTypes.includes(file.type)) { alert('Only JPEG, PNG, or WebP images are allowed.'); e.target.value = ''; return; }
-        if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5 MB.'); e.target.value = ''; return; }
-        const orderId = e.target.dataset.orderId;
-        const reader = new FileReader();
-        reader.onload = () => {
-          // Resize to keep localStorage manageable
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const maxSize = 300;
-            let w = img.width, h = img.height;
-            if (w > h) { h = (h / w) * maxSize; w = maxSize; }
-            else { w = (w / h) * maxSize; h = maxSize; }
-            canvas.width = w;
-            canvas.height = h;
-            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-            OrderStorage.savePhoto(orderId, canvas.toDataURL('image/jpeg', 0.8));
-            renderOrders();
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    // Photo remove
-    document.getElementById('ordersGrid').addEventListener('click', (e) => {
-      const removeBtn = e.target.closest('.order-photo-remove');
-      if (removeBtn) {
-        OrderStorage.deletePhoto(removeBtn.dataset.orderId);
-        renderOrders();
       }
     });
 
