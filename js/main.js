@@ -651,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var schedTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.schedule-section',
-          start: 'top 75%',
+          start: 'top 85%',
         }
       });
 
@@ -691,13 +691,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, '-=0.3');
       }
 
-      // Schedule picture slides in from right with bounce
+      // Schedule picture fades in
       schedTl.from('.schedule-picture-wrapper', {
-        x: 100,
+        y: 20,
         opacity: 0,
-        rotation: 15,
-        duration: 1,
-        ease: 'back.out(1.5)'
+        duration: 0.6,
+        ease: 'power2.out'
       }, '-=0.3');
 
       // Intro text word reveal
@@ -732,53 +731,51 @@ document.addEventListener('DOMContentLoaded', () => {
       schedTl.from('.schedule-atmosphere', {
         opacity: 0,
         scale: 0.5,
-        duration: 1.2,
-        stagger: 0.15,
+        duration: 1,
+        stagger: 0.1,
         ease: 'power2.out'
       }, '-=0.3');
 
       // Phase 4: Images materialize with elastic bounce
       schedTl.from('.schedule-image-wrapper', {
         opacity: 0,
-        scale: 0.7,
-        rotation: -15,
-        filter: 'blur(12px)',
-        duration: 1.4,
-        stagger: 0.18,
-        ease: 'elastic.out(1, 0.7)',
+        scale: 0.8,
+        rotation: -8,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'elastic.out(1, 0.8)',
         onComplete: function() {
-          // Clear filter after animation completes to use CSS-defined drops
           gsap.set('.schedule-image-wrapper', { clearProps: 'filter' });
         }
-      }, '-=0.8');
+      }, '-=0.6');
 
-      // Date ribbons slide up from below
+      // Date ribbons slide up — starts alongside images for faster reveal
       schedTl.from('.schedule-date-ribbon', {
-        y: 40,
+        y: 30,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
+        duration: 0.7,
+        stagger: 0.12,
         ease: 'power3.out'
-      }, '-=1.0');
+      }, '-=0.8');
 
       // Day dots pop in sequentially
       schedTl.from('.day-dot', {
         scale: 0,
         opacity: 0,
         rotation: 180,
-        duration: 0.5,
-        stagger: 0.04,
+        duration: 0.4,
+        stagger: 0.03,
         ease: 'back.out(2.5)'
-      }, '-=0.5');
+      }, '-=0.4');
 
       // Featured badge bounces in
       schedTl.from('.schedule-featured-badge', {
         scale: 0,
         rotation: -180,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.5,
         ease: 'back.out(3)'
-      }, '-=0.3');
+      }, '-=0.2');
 
       // Ambient blobs fade in
       schedTl.from('.schedule-blob', {
@@ -787,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 1.5,
         stagger: 0.2,
         ease: 'power2.out'
-      }, '-=1.2');
+      }, '-=1.0');
 
     } else {
       // Reduced motion: make schedule elements visible
@@ -796,9 +793,20 @@ document.addEventListener('DOMContentLoaded', () => {
         '.schedule-intro', '.schedule-divider',
         '.schedule-item', '.schedule-atmosphere',
         '.schedule-image-wrapper', '.schedule-date-ribbon',
-        '.schedule-featured-badge', '.schedule-blob'
+        '.schedule-featured-badge', '.schedule-blob',
+        '.day-dot', '.schedule-picture-wrapper'
       ], { opacity: 1, y: 0, x: 0, scale: 1, filter: 'blur(0px)' });
     }
+
+    // Safety fallback: ensure schedule elements are visible after 4 seconds
+    gsap.delayedCall(4, function() {
+      gsap.set([
+        '.schedule-date-ribbon', '.day-dot', '.schedule-featured-badge',
+        '.schedule-image-wrapper', '.schedule-atmosphere',
+        '.schedule-label', '.schedule-section .section-title',
+        '.schedule-intro', '.schedule-divider', '.schedule-picture-wrapper'
+      ], { opacity: 1, y: 0, scale: 1 });
+    });
 
     // --- Product Cards Stagger ---
     gsap.from('.product-card', {
