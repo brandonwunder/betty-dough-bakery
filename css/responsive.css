@@ -162,6 +162,15 @@
     width: 160px;
   }
 
+  /* Pull-quote: swap left-border to top-border for centered column layout */
+  .about-owner-text .about-text:first-child {
+    border-left: none;
+    padding-left: 0;
+    border-top: 3px solid var(--color-accent);
+    padding-top: var(--space-md);
+    text-align: center;
+  }
+
   /* Cart drawer full width on tablet */
   .cart-drawer {
     width: 100%;
@@ -294,7 +303,7 @@
 
   .schedule-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-3xl);
+    gap: var(--space-xl);
   }
 
   .schedule-image-wrapper {
@@ -302,8 +311,8 @@
   }
 
   .schedule-atmosphere {
-    width: 160%;
-    height: 160%;
+    width: 120%;
+    height: 120%;
   }
 
   .schedule-picture-wrapper {
@@ -352,6 +361,114 @@
   .form-row-3 {
     grid-template-columns: 1fr;
   }
+
+  /* --- Mobile audit fixes (320-576px) --- */
+
+  /* Hide empty header-top bar */
+  .header-top {
+    display: none;
+  }
+
+  /* Tighter header spacing */
+  .header-nav {
+    gap: var(--space-md);
+  }
+
+  /* Tap targets: 44px minimum */
+  .hamburger-btn,
+  .icon-btn {
+    padding: var(--space-sm);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Hero meta: allow wrapping on narrow screens */
+  .hero-meta {
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-meta-item {
+    white-space: normal;
+  }
+
+  /* Tighter hero description */
+  .hero-description {
+    line-height: 1.65;
+  }
+
+  /* CTA button: prevent overflow on narrow screens */
+  .btn-lg {
+    padding: 0.85rem 2rem;
+    font-size: var(--text-base);
+  }
+
+  /* Featured badge: prevent clipping */
+  .schedule-featured-badge {
+    top: 0;
+    right: 0;
+  }
+
+  /* Info banner: tighter on mobile */
+  .info-banner {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  /* Section title: prevent script font overflow */
+  .section-title .title-script {
+    font-size: clamp(2.2rem, 1.6rem + 3vw, 3.5rem);
+  }
+
+  /* Schedule ambient: contain width */
+  .schedule-section::before {
+    width: 100%;
+  }
+}
+
+/* Small phones: 430px */
+@media (max-width: 26.875rem) {
+  /* Product name + ORDER button: stack vertically */
+  .product-name-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .product-info .btn-add {
+    align-self: stretch;
+    text-align: center;
+    padding: 0.4rem 0.75rem;
+  }
+
+  /* About photo proportional to screen */
+  .about-owner-photo {
+    width: 130px;
+  }
+
+  /* Footer admin-link: prevent absolute overlap */
+  .admin-link {
+    position: static;
+    display: block;
+    text-align: center;
+    margin-top: var(--space-sm);
+  }
+
+  /* Modal footer: wrap price + button */
+  .modal-footer {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .btn-add-cart {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+  }
+
+  /* Hero glass panel: tighter padding */
+  .hero-text-group {
+    padding: var(--space-sm) var(--space-md);
+  }
 }
 
 /* Very small phones: 375px */
@@ -364,6 +481,42 @@
 
   .kitchen-showcase {
     grid-column: span 1;
+  }
+
+  /* --- Ultra-narrow fixes (320-375px) --- */
+
+  /* Cart drawer: tighter padding */
+  .cart-drawer-header {
+    padding: var(--space-md);
+  }
+
+  .cart-drawer-items {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .cart-drawer-footer {
+    padding: var(--space-md);
+  }
+
+  /* Schedule image: proportional to narrow screen */
+  .schedule-image-wrapper {
+    max-width: 200px;
+  }
+
+  /* Date ribbon: flexible width */
+  .schedule-date-ribbon {
+    min-width: 0;
+    width: 100%;
+    max-width: 240px;
+  }
+
+  /* Hero meta: ultra-tight, hide divider */
+  .hero-meta {
+    gap: var(--space-sm);
+  }
+
+  .hero-divider {
+    display: none;
   }
 }
 
