@@ -582,7 +582,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      gsap.to('.hero-content', {
+      // Target individual elements instead of parent container to avoid scope conflict
+      const heroScrollElements = [
+        '.hero-logo',
+        '.hero-text-group',
+        '.hero-cta',
+        '.hero-meta-item',
+        '.hero-divider',
+        '.hero-scroll-hint'
+      ];
+
+      gsap.to(heroScrollElements, {
         y: -40,
         opacity: 0.3,
         ease: 'none',
