@@ -1378,6 +1378,27 @@
   animation: schedulePictureFloat 6s ease-in-out infinite;
 }
 
+.schedule-picture-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180%;
+  height: 180%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(232, 146, 42, 0.25) 0%,
+    rgba(232, 146, 42, 0.12) 35%,
+    rgba(255, 180, 80, 0.05) 60%,
+    transparent 80%
+  );
+  filter: blur(16px);
+  z-index: -1;
+  pointer-events: none;
+}
+
 .schedule-picture-wrapper img {
   width: 100%;
   height: auto;
