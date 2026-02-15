@@ -400,7 +400,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--space-sm);
+  gap: var(--space-xl);
   position: relative;
   z-index: 2;
 }
@@ -474,7 +474,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 /* --- Hero: Title --- */
@@ -491,7 +491,7 @@
   font-size: var(--text-2xl);
   font-weight: 300;
   text-transform: uppercase;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.2em;
   color: rgba(200, 180, 160, 1);
   position: relative;
   padding-top: var(--space-sm);
@@ -547,7 +547,7 @@
 .hero-description {
   font-size: var(--text-base);
   color: var(--color-text-secondary);
-  max-width: 520px;
+  max-width: 600px;
   line-height: 1.8;
 }
 
@@ -555,6 +555,7 @@
 .hero-cta {
   position: relative;
   overflow: hidden;
+  margin-top: var(--space-sm);
   box-shadow: 0 0 20px rgba(232, 146, 42, 0.15);
   transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
               transform var(--transition-fast),
@@ -649,7 +650,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-xl);
-  margin-top: var(--space-xs);
+  margin-top: var(--space-lg);
 }
 
 .hero-meta-item {
