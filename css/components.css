@@ -955,16 +955,19 @@
 .kitchen-showcase {
   grid-column: span 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  border: none;
+  padding-top: var(--space-2xl);
   background: none;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
   animation: kitchenFloat 4s ease-in-out infinite;
 }
 
 .kitchen-showcase img {
-  max-width: 80%;
-  max-height: 320px;
+  max-width: 75%;
+  max-height: 300px;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 0 30px rgba(232, 146, 42, 0.25))
