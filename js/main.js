@@ -430,13 +430,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!prefersReducedMotion) {
-      const heroTl = gsap.timeline({ delay: 0.4 });
+      const heroTl = gsap.timeline({ delay: 0.2 });
 
       // 1. Background image fade + scale (cinematic opening)
       heroTl.from('.hero-bg', {
         scale: 1.2,
         opacity: 0,
-        duration: 2,
+        duration: 1,
         ease: 'power2.out'
       }, 0);
 
@@ -444,46 +444,46 @@ document.addEventListener('DOMContentLoaded', () => {
       heroTl.from('.hero-blob', {
         opacity: 0,
         scale: 0.5,
-        duration: 2,
-        stagger: 0.3,
+        duration: 1,
+        stagger: 0.15,
         ease: 'power2.out'
-      }, 0.3);
+      }, 0.15);
 
       // 3. Accent lines grow in
       heroTl.from('.hero-accent-line', {
         scaleY: 0,
         opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
+        duration: 0.6,
+        stagger: 0.075,
         ease: 'power3.out',
         transformOrigin: 'center center'
-      }, 0.5);
+      }, 0.25);
 
       // 4. Glass panel appears
       heroTl.from('.hero-text-group', {
         opacity: 0,
         scale: 0.97,
-        duration: 0.8,
+        duration: 0.4,
         ease: 'power2.out'
-      }, 0.6);
+      }, 0.3);
 
       // 5. Logo fade up with enhanced depth
       heroTl.from('.hero-logo', {
         y: 50,
         opacity: 0,
         scale: 0.8,
-        duration: 1.2,
+        duration: 0.6,
         ease: 'power3.out'
-      }, 0.5);
+      }, 0.25);
 
       // 6. CAPS title with letter-spacing expansion
       heroTl.from('.hero-title .title-caps', {
         y: 20,
         opacity: 0,
         letterSpacing: '0.1em',
-        duration: 0.8,
+        duration: 0.4,
         ease: 'power2.out'
-      }, '-=0.5');
+      }, '-=0.25');
 
       // 7. Script title — SplitText character reveal
       const heroScript = document.querySelector('.hero-title .title-script');
@@ -494,28 +494,28 @@ document.addEventListener('DOMContentLoaded', () => {
           opacity: 0,
           rotateX: -90,
           scale: 0.5,
-          stagger: 0.04,
-          duration: 0.7,
+          stagger: 0.02,
+          duration: 0.35,
           ease: 'back.out(1.7)',
           onComplete: function() {
             // Revert SplitText (merge spans back to plain text)
             // so shimmer background-clip works on the parent element
             heroSplit.revert();
-            gsap.delayedCall(0.5, function() {
+            gsap.delayedCall(0.25, function() {
               heroScript.classList.add('shimmer-active');
             });
           }
-        }, '-=0.3');
+        }, '-=0.15');
       } else if (heroScript) {
         heroTl.from(heroScript, {
           y: 30,
           opacity: 0,
-          duration: 0.8,
+          duration: 0.4,
           ease: 'power2.out',
           onComplete: function() {
             heroScript.classList.add('shimmer-active');
           }
-        }, '-=0.3');
+        }, '-=0.15');
       }
 
       // 8. Description — word-by-word SplitText fade
@@ -525,42 +525,42 @@ document.addEventListener('DOMContentLoaded', () => {
         heroTl.from(descSplit.words, {
           opacity: 0,
           y: 15,
-          stagger: 0.015,
-          duration: 0.4,
+          stagger: 0.0075,
+          duration: 0.2,
           ease: 'power2.out'
-        }, '-=0.3');
+        }, '-=0.15');
       } else {
         heroTl.from('.hero-description', {
           y: 20,
           opacity: 0,
-          duration: 0.7,
+          duration: 0.35,
           ease: 'power2.out'
-        }, '-=0.3');
+        }, '-=0.15');
       }
 
       // 9. CTA Button scale-up
       heroTl.from('.hero-cta', {
         scale: 0.85,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.3,
         ease: 'back.out(2.5)'
-      }, '-=0.2');
+      }, '-=0.1');
 
       // 10. Meta items + divider + scroll hint
       heroTl.from('.hero-meta-item, .hero-divider', {
         y: 20,
         opacity: 0,
-        stagger: 0.1,
-        duration: 0.5,
+        stagger: 0.05,
+        duration: 0.25,
         ease: 'power2.out'
-      }, '-=0.2');
+      }, '-=0.1');
 
       heroTl.from('.hero-scroll-hint', {
         opacity: 0,
         y: 10,
-        duration: 0.5,
+        duration: 0.25,
         ease: 'power2.out'
-      }, '-=0.2');
+      }, '-=0.1');
 
       // --- Hero Scroll Parallax ---
       gsap.to('.hero-bg', {
