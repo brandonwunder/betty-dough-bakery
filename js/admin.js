@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ===== INIT =====
   function init() {
+    OrderStorage.initMockOrders();
     loadOrders();
     updateStats();
     renderOrders();

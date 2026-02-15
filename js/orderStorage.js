@@ -105,5 +105,42 @@ const OrderStorage = {
    */
   isAuthenticated() {
     return !!sessionStorage.getItem(this.AUTH_KEY);
+  },
+
+  /**
+   * Seed a mock order if the orders list is empty (for demo purposes)
+   */
+  initMockOrders() {
+    if (this.getAllOrders().length > 0) return;
+    const now = Date.now();
+    const mockOrders = [
+      {
+        orderId: 'ORD-DEMO-001',
+        timestamp: now - 3600000,
+        customer: { name: 'Jane Cooper', email: 'jane@example.com', phone: '(555) 123-4567' },
+        fulfillment: { method: 'pickup' },
+        items: [
+          { name: 'Artisan Sourdough', size: 'Large', quantity: 2, price: 8 },
+          { name: 'Sourdough Bagels', size: '6 pack', quantity: 1, price: 15 }
+        ],
+        total: 31,
+        completionDate: null,
+        status: 'pending'
+      },
+      {
+        orderId: 'ORD-DEMO-002',
+        timestamp: now - 7200000,
+        customer: { name: 'Marcus Lee', email: 'marcus@example.com', phone: '(555) 987-6543' },
+        fulfillment: { method: 'delivery', address: '42 Maple St, Springfield' },
+        items: [
+          { name: 'Cinnamon Rolls', size: '6 pack', quantity: 1, price: 20 },
+          { name: 'English Muffins', size: '6 pack', quantity: 2, price: 10 }
+        ],
+        total: 40,
+        completionDate: null,
+        status: 'in-progress'
+      }
+    ];
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(mockOrders));
   }
 };
