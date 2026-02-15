@@ -18,10 +18,7 @@
   }
 
   .schedule-picture-wrapper {
-    top: -20px;
-    right: 50%;
-    transform: translateX(50%);
-    width: clamp(140px, 18vw, 200px);
+    width: 100px;
   }
 
   .footer-grid {
@@ -136,13 +133,7 @@
   }
 
   .schedule-picture-wrapper {
-    position: relative;
-    top: 0;
-    right: auto;
-    transform: none;
-    width: 160px;
-    margin: 0 auto var(--space-lg);
-    display: block;
+    width: 100px;
   }
 
   .schedule-blob-1 { width: 50vw; height: 50vw; }
@@ -312,7 +303,7 @@
   }
 
   .schedule-picture-wrapper {
-    width: 120px;
+    width: 80px;
   }
 
   .day-dot {

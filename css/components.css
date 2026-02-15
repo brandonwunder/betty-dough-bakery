@@ -1366,17 +1366,16 @@
   padding-top: var(--space-md);
 }
 
-/* Schedule decorative image */
+/* Schedule decorative image — centered header accent */
 .schedule-picture-wrapper {
-  position: absolute;
-  top: 0;
-  right: 35%;
-  width: clamp(180px, 20vw, 280px);
-  height: auto;
+  position: relative;
+  width: 120px;
+  margin: 0 auto var(--space-md);
   z-index: 2;
   pointer-events: none;
   opacity: 0.95;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+  animation: schedulePictureFloat 6s ease-in-out infinite;
 }
 
 .schedule-picture-wrapper img {
@@ -1385,19 +1384,13 @@
   display: block;
 }
 
-/* Playful floating animation */
 @keyframes schedulePictureFloat {
   0%, 100% {
-    transform: translateY(0) rotate(-2deg);
+    transform: translateY(0) rotate(-1deg);
   }
   50% {
-    transform: translateY(-15px) rotate(2deg);
+    transform: translateY(-8px) rotate(1deg);
   }
-}
-
-.schedule-picture-wrapper {
-  animation: schedulePictureFloat 6s ease-in-out infinite;
-  animation-delay: 1s;
 }
 
 .schedule-label {
