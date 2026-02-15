@@ -106,7 +106,7 @@
   }
 
   .section-title .title-script {
-    font-size: var(--text-2xl);
+    font-size: clamp(3rem, 2.2rem + 2.4vw, 5rem);
   }
 
   /* Footer */
