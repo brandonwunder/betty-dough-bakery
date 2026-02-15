@@ -506,7 +506,9 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 0.7,
           ease: 'back.out(1.7)',
           onComplete: function() {
-            // Enable shimmer after entrance completes
+            // Revert SplitText (merge spans back to plain text)
+            // so shimmer background-clip works on the parent element
+            heroSplit.revert();
             gsap.delayedCall(0.5, function() {
               heroScript.classList.add('shimmer-active');
             });
@@ -678,6 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 0.6,
           ease: 'back.out(1.5)',
           onComplete: function() {
+            schedSplit.revert();
             gsap.delayedCall(0.8, function() {
               scheduleScript.classList.add('shimmer-active');
             });
