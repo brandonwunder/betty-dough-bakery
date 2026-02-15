@@ -281,3 +281,41 @@
     margin: 0 auto;
   }
 }
+
+/* Touch devices — disable tilt glare, reduce motion */
+@media (hover: none) and (pointer: coarse) {
+  .product-card:hover,
+  .schedule-card:hover {
+    transform: none;
+  }
+
+  /* Disable shine sweep on touch */
+  .product-card::before {
+    display: none;
+  }
+
+  /* Simpler shadows on touch */
+  .product-card:hover {
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  .hero-logo {
+    animation: none;
+  }
+
+  .schedule-badge {
+    animation: none;
+  }
+
+  .product-card::before {
+    display: none;
+  }
+}

@@ -1,0 +1,35 @@
+/* ============================================
+   SCROLL PROGRESS BAR
+   Pure CSS scroll progress indicator.
+   Uses animation-timeline: scroll() to track
+   scroll position with zero JavaScript.
+   Browser support: Chrome 115+, Safari 26+, FF 110+
+   ============================================ */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e8922a, #f5a623);
+  transform-origin: left center;
+  z-index: 10000;
+  animation: scroll-progress linear;
+  animation-timeline: scroll(root block);
+}
+
+@keyframes scroll-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Thinner variant */
+.scroll-progress-thin {
+  height: 2px;
+}
+
+/* With glow */
+.scroll-progress-glow {
+  box-shadow: 0 0 8px rgba(232, 146, 42, 0.5);
+}

@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     modalOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    stopLenis();
 
     // Focus close button
     document.getElementById('modalClose').focus();
@@ -152,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModal() {
     modalOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    startLenis();
 
     // Return focus to the trigger button
     const triggerBtn = document.querySelector(
@@ -401,32 +403,267 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ===== SCROLL ANIMATIONS =====
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
+  // ===== LENIS SMOOTH SCROLL =====
+  let lenis;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in-visible');
-        observer.unobserve(entry.target);
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Integrate with GSAP ScrollTrigger
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.lagSmoothing(0);
+    }
+  }
+
+  // Stop Lenis during modals/drawers
+  function stopLenis() { if (lenis) lenis.stop(); }
+  function startLenis() { if (lenis) lenis.start(); }
+
+  // ===== GSAP SCROLL ANIMATIONS =====
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Hero Entrance Animation ---
+    const heroTl = gsap.timeline({ delay: 0.3 });
+
+    // Logo fade up
+    heroTl.from('.hero-logo', {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    // Title CAPS label
+    heroTl.from('.hero-title .title-caps', {
+      y: 20,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out'
+    }, '-=0.4');
+
+    // Title Script — character reveal via SplitText
+    if (typeof SplitText !== 'undefined') {
+      const heroScript = document.querySelector('.hero-title .title-script');
+      if (heroScript) {
+        const heroSplit = new SplitText(heroScript, { type: 'chars' });
+        heroTl.from(heroSplit.chars, {
+          y: 50,
+          opacity: 0,
+          rotateX: -60,
+          stagger: 0.03,
+          duration: 0.6,
+          ease: 'back.out(1.7)'
+        }, '-=0.3');
+      }
+    } else {
+      heroTl.from('.hero-title .title-script', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, '-=0.3');
+    }
+
+    // Description
+    heroTl.from('.hero-description', {
+      y: 20,
+      opacity: 0,
+      duration: 0.7,
+      ease: 'power2.out'
+    }, '-=0.3');
+
+    // CTA Button
+    heroTl.from('.hero .btn-primary', {
+      scale: 0.9,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'back.out(2)'
+    }, '-=0.3');
+
+    // Meta items
+    heroTl.from('.hero-meta-item', {
+      y: 15,
+      opacity: 0,
+      stagger: 0.15,
+      duration: 0.5,
+      ease: 'power2.out'
+    }, '-=0.2');
+
+    // --- Hero Background Subtle Scale ---
+    gsap.from('.hero::before', {
+      scale: 1.15,
+      duration: 4,
+      ease: 'power2.out'
+    });
+
+    // --- Schedule Cards Stagger ---
+    gsap.from('.schedule-card', {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.schedule-grid',
+        start: 'top 82%',
       }
     });
-  }, observerOptions);
 
-  document.querySelectorAll('.product-card').forEach((card, index) => {
-    card.style.transitionDelay = `${index * 80}ms`;
-    card.classList.add('fade-in');
-    observer.observe(card);
-  });
+    // --- Product Cards Stagger ---
+    gsap.from('.product-card', {
+      y: 50,
+      opacity: 0,
+      filter: 'blur(4px)',
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.product-grid',
+        start: 'top 82%',
+      }
+    });
 
-  document.querySelectorAll('.schedule-card').forEach((card, index) => {
-    card.style.transitionDelay = `${index * 100}ms`;
-    card.classList.add('fade-in');
-    observer.observe(card);
-  });
+    // --- Schedule Header ---
+    gsap.from('.schedule-header', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.schedule-section',
+        start: 'top 80%',
+      }
+    });
+
+    // --- Shop Header ---
+    gsap.from('.shop-header', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.shop',
+        start: 'top 80%',
+      }
+    });
+
+    // --- Info Banner ---
+    gsap.from('.info-banner', {
+      y: 20,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.info-banner',
+        start: 'top 85%',
+      }
+    });
+
+    // --- About Section ---
+    gsap.from('.about-content .section-title', {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.about-section',
+        start: 'top 75%',
+      }
+    });
+
+    // Owner photo clip-path reveal
+    gsap.from('.about-owner-photo', {
+      clipPath: 'inset(0 100% 0 0)',
+      duration: 1.2,
+      ease: 'power3.inOut',
+      scrollTrigger: {
+        trigger: '.about-owner',
+        start: 'top 75%',
+      }
+    });
+
+    // About text paragraphs stagger
+    gsap.from('.about-text', {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      stagger: 0.15,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.about-owner-text',
+        start: 'top 80%',
+      }
+    });
+
+    // --- Footer Columns Stagger ---
+    gsap.from('.footer-grid > *', {
+      y: 30,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.site-footer',
+        start: 'top 88%',
+      }
+    });
+
+    // --- Section Title Script Character Reveals ---
+    if (typeof SplitText !== 'undefined') {
+      document.querySelectorAll('.section-title .title-script').forEach(el => {
+        // Skip hero title (already animated)
+        if (el.closest('.hero')) return;
+
+        const split = new SplitText(el, { type: 'chars' });
+        gsap.from(split.chars, {
+          y: 30,
+          opacity: 0,
+          stagger: 0.03,
+          duration: 0.5,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el.closest('.section-title'),
+            start: 'top 85%',
+          }
+        });
+      });
+    }
+  }
+
+  // ===== VANILLA TILT =====
+  if (typeof VanillaTilt !== 'undefined') {
+    // Product cards — 3D tilt with glare
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (!isTouchDevice) {
+      VanillaTilt.init(document.querySelectorAll('.product-card'), {
+        max: 8,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.15,
+        scale: 1.02,
+      });
+
+      // Schedule cards — subtler tilt
+      VanillaTilt.init(document.querySelectorAll('.schedule-card'), {
+        max: 5,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.1,
+      });
+    }
+  }
 
   // ===== CART DRAWER =====
   const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
@@ -439,12 +676,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCartDrawer();
     cartDrawerOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    stopLenis();
     document.getElementById('cartDrawerClose').focus();
   }
 
   function closeCartDrawer() {
     cartDrawerOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    startLenis();
   }
 
   function renderCartDrawer() {
@@ -560,11 +799,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCheckoutSummary();
     checkoutOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    stopLenis();
   }
 
   function closeCheckout() {
     checkoutOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    startLenis();
   }
 
   function renderCheckoutSummary() {
@@ -695,18 +936,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
-
-// CSS for fade-in animation
-const style = document.createElement('style');
-style.textContent = `
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-in-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-document.head.appendChild(style);

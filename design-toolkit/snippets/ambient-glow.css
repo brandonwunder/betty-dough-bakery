@@ -1,0 +1,88 @@
+/* ============================================
+   AMBIENT GLOW EFFECTS
+   Large, soft radial gradients that suggest
+   light sources behind content. Creates
+   cinematic depth on dark backgrounds.
+   ============================================ */
+
+/* Static centered glow */
+.ambient-glow {
+  position: relative;
+}
+
+.ambient-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(
+    circle,
+    rgba(232, 146, 42, 0.08) 0%,
+    rgba(232, 146, 42, 0.03) 40%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(4vw);
+}
+
+/* Animated floating blobs */
+.ambient-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(6vw);
+}
+
+.ambient-blob-1 {
+  width: 40vw;
+  height: 40vw;
+  background: rgba(232, 146, 42, 0.1);
+  top: -10%;
+  left: -10%;
+  animation: blob-float 20s ease-in-out infinite;
+}
+
+.ambient-blob-2 {
+  width: 30vw;
+  height: 30vw;
+  background: rgba(245, 166, 35, 0.05);
+  bottom: -5%;
+  right: -5%;
+  animation: blob-float 20s ease-in-out infinite reverse;
+  animation-delay: -7s;
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(3%, -3%) rotate(5deg); }
+  66% { transform: translate(-2%, 2%) rotate(-3deg); }
+}
+
+/* Top gradient line separator */
+.glow-line-top::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(232, 146, 42, 0.4) 30%,
+    rgba(232, 146, 42, 0.8) 50%,
+    rgba(232, 146, 42, 0.4) 70%,
+    transparent 100%
+  );
+}

@@ -1,0 +1,47 @@
+/* ============================================
+   GLASSMORPHISM PANELS
+   Semi-transparent panels with blur for depth
+   and layering on dark backgrounds.
+   ============================================ */
+
+/* Basic glass panel */
+.glass-panel {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Warm glass (with accent tint) */
+.glass-panel-warm {
+  background: rgba(35, 28, 20, 0.6);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(232, 146, 42, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(232, 146, 42, 0.05);
+}
+
+/* Frosted header */
+.glass-header {
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Glass card on hover */
+.glass-card-hover:hover {
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(232, 146, 42, 0.04);
+}

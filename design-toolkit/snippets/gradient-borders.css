@@ -1,0 +1,63 @@
+/* ============================================
+   GRADIENT BORDER GLOW
+   Instead of solid borders, use gradient
+   borders that suggest light. Premium effect
+   for cards on dark backgrounds.
+   ============================================ */
+
+/* Gradient border via mask technique */
+.glow-border {
+  position: relative;
+  background: var(--color-bg-card);
+  border-radius: 12px;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 13px;
+  background: linear-gradient(
+    135deg,
+    rgba(232, 146, 42, 0.3),
+    transparent 50%,
+    rgba(232, 146, 42, 0.1)
+  );
+  z-index: -1;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+
+/* Animated gradient border */
+.glow-border-animated::before {
+  background: linear-gradient(
+    var(--border-angle, 135deg),
+    rgba(232, 146, 42, 0.4),
+    transparent 40%,
+    transparent 60%,
+    rgba(232, 146, 42, 0.2)
+  );
+  animation: border-rotate 4s linear infinite;
+}
+
+@keyframes border-rotate {
+  to { --border-angle: 495deg; }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 135deg;
+  inherits: false;
+}
+
+/* Hover-only gradient border */
+.glow-border-hover::before {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.glow-border-hover:hover::before {
+  opacity: 1;
+}
