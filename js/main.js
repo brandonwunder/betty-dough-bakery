@@ -1201,8 +1201,42 @@ document.addEventListener('DOMContentLoaded', () => {
   placeOrderBtn.addEventListener('click', () => {
     if (!validateCheckoutForm()) return;
 
-    // Stripe not connected yet
-    alert('Thank you for your order! Stripe payment integration coming soon. We will contact you to confirm your order.');
+    // Gather order data
+    const orderData = {
+      customer: {
+        name: document.getElementById('checkoutName').value.trim(),
+        email: document.getElementById('checkoutEmail').value.trim(),
+        phone: document.getElementById('checkoutPhone').value.trim()
+      },
+      fulfillment: {
+        method: document.querySelector('input[name="fulfillment"]:checked').value,
+        address: null
+      },
+      items: cart.map(item => ({...item})), // Deep copy
+      total: parseFloat(cartSubtotal.textContent.replace('$', ''))
+    };
+
+    // Add delivery address if applicable
+    if (orderData.fulfillment.method === 'delivery') {
+      orderData.fulfillment.address = {
+        street: document.getElementById('checkoutAddress').value.trim(),
+        city: document.getElementById('checkoutCity').value.trim(),
+        state: document.getElementById('checkoutState').value.trim(),
+        zip: document.getElementById('checkoutZip').value.trim()
+      };
+    }
+
+    // Save order to localStorage
+    let savedOrder = null;
+    if (typeof OrderStorage !== 'undefined') {
+      savedOrder = OrderStorage.saveOrder(orderData);
+    }
+
+    // Show success message with order ID
+    const orderMessage = savedOrder
+      ? `Thank you for your order! Your order number is ${savedOrder.orderId}. We will contact you to confirm.`
+      : 'Thank you for your order! Stripe payment integration coming soon. We will contact you to confirm your order.';
+    alert(orderMessage);
 
     // Clear cart
     cart.length = 0;
@@ -1233,6 +1267,54 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && checkoutOverlay.classList.contains('active')) {
       closeCheckout();
+    }
+  });
+
+  // ===== ADMIN LOGIN =====
+  const adminLink = document.getElementById('adminLink');
+  const adminLoginModal = document.getElementById('adminLoginModal');
+  const adminLoginForm = document.getElementById('adminLoginForm');
+  const adminLoginError = document.getElementById('adminLoginError');
+
+  if (adminLink) {
+    adminLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAdminLoginModal();
+    });
+  }
+
+  function openAdminLoginModal() {
+    adminLoginModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    stopLenis();
+    document.getElementById('adminUsername').focus();
+  }
+
+  function closeAdminLoginModal() {
+    adminLoginModal.classList.remove('active');
+    document.body.style.overflow = '';
+    startLenis();
+    adminLoginForm.reset();
+    adminLoginError.style.display = 'none';
+  }
+
+  document.getElementById('adminLoginClose').addEventListener('click', closeAdminLoginModal);
+
+  adminLoginModal.addEventListener('click', (e) => {
+    if (e.target === adminLoginModal) closeAdminLoginModal();
+  });
+
+  adminLoginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('adminUsername').value.trim();
+    const password = document.getElementById('adminPassword').value;
+
+    if (typeof OrderStorage !== 'undefined' && OrderStorage.login(username, password)) {
+      closeAdminLoginModal();
+      window.location.href = 'admin.html';
+    } else {
+      adminLoginError.style.display = 'block';
+      document.getElementById('adminPassword').value = '';
     }
   });
 

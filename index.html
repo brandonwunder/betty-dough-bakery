@@ -675,9 +675,45 @@
         </div>
         <div class="footer-bottom">
           <p>&copy; 2025 Betty Dough Bakery LLC. All rights reserved.</p>
+          <a href="#" class="admin-link" id="adminLink">Admin</a>
         </div>
       </div>
     </footer>
+
+    <!-- ===== ADMIN LOGIN MODAL ===== -->
+    <div class="modal-overlay" id="adminLoginModal" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
+      <div class="modal-content admin-login-modal">
+        <button class="modal-close" id="adminLoginClose" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="modal-header">
+          <h3 class="modal-title" id="adminLoginTitle">Admin Login</h3>
+          <p class="modal-subtitle">Enter your credentials to access the dashboard</p>
+        </div>
+
+        <form class="admin-login-form" id="adminLoginForm">
+          <div class="form-group">
+            <label class="form-label" for="adminUsername">Username</label>
+            <input class="form-input" type="text" id="adminUsername" name="username" required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="adminPassword">Password</label>
+            <input class="form-input" type="password" id="adminPassword" name="password" required autocomplete="current-password">
+          </div>
+
+          <div class="admin-login-error" id="adminLoginError" style="display:none;">
+            Invalid username or password
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-login">Login</button>
+        </form>
+      </div>
+    </div>
   </main>
 
   <!-- Animation Libraries -->
@@ -687,6 +723,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" defer></script>
 
+  <script src="js/orderStorage.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
