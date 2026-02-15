@@ -840,6 +840,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // --- Shop Background Parallax (matches hero) ---
+    gsap.to('.shop-bg', {
+      yPercent: -20,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.shop',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
     // --- Info Banner ---
     gsap.from('.info-banner', {
       y: 20,
