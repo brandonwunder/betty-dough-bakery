@@ -434,6 +434,18 @@
   .schedule-section::before {
     width: 100%;
   }
+
+  /* Kitchen showcase: full-width and centered on mobile */
+  .kitchen-showcase {
+    grid-column: 1 / -1;
+    justify-content: center;
+    padding-top: var(--space-lg);
+  }
+
+  .kitchen-showcase img {
+    max-width: 60%;
+    max-height: 400px;
+  }
 }
 
 /* Small phones: 430px */
@@ -490,7 +502,12 @@
   }
 
   .kitchen-showcase {
-    grid-column: span 1;
+    grid-column: 1 / -1;
+  }
+
+  .kitchen-showcase img {
+    max-width: 70%;
+    max-height: 350px;
   }
 
   /* --- Ultra-narrow fixes (320-375px) --- */
