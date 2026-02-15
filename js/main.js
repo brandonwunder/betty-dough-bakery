@@ -1103,13 +1103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCartDrawer();
     renderCheckoutSummary();
     checkoutOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    checkoutOverlay.scrollTop = 0;
     stopLenis();
   }
 
   function closeCheckout() {
     checkoutOverlay.classList.remove('active');
-    document.body.style.overflow = '';
     startLenis();
   }
 
@@ -1189,6 +1188,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     errorEl.textContent = message;
     errorEl.classList.add('visible');
+  }
+
+  // Card number formatting (auto-space every 4 digits)
+  const cardNumberInput = document.getElementById('checkoutCardNumber');
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', () => {
+      let v = cardNumberInput.value.replace(/\D/g, '').slice(0, 16);
+      cardNumberInput.value = v.replace(/(.{4})/g, '$1 ').trim();
+    });
+  }
+
+  // Expiry formatting (auto-slash)
+  const cardExpiryInput = document.getElementById('checkoutCardExpiry');
+  if (cardExpiryInput) {
+    cardExpiryInput.addEventListener('input', () => {
+      let v = cardExpiryInput.value.replace(/\D/g, '').slice(0, 4);
+      if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
+      cardExpiryInput.value = v;
+    });
+  }
+
+  // CVC: digits only
+  const cardCVCInput = document.getElementById('checkoutCardCVC');
+  if (cardCVCInput) {
+    cardCVCInput.addEventListener('input', () => {
+      cardCVCInput.value = cardCVCInput.value.replace(/\D/g, '').slice(0, 4);
+    });
   }
 
   // Enable/disable Place Order based on required fields

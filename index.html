@@ -207,15 +207,34 @@
 
             <fieldset class="checkout-section">
               <legend class="checkout-section-title">Payment</legend>
-              <div class="stripe-placeholder" id="stripeCardElement">
-                <div class="stripe-placeholder-inner">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                    <line x1="1" y1="10" x2="23" y2="10"></line>
-                  </svg>
-                  <p class="stripe-placeholder-text">Secure card payment powered by Stripe</p>
-                  <p class="stripe-placeholder-subtext">Card fields will appear here when payment is ready</p>
+              <div class="payment-card-fields">
+                <div class="form-group">
+                  <label class="form-label" for="checkoutCardNumber">Card Number</label>
+                  <div class="card-input-wrapper">
+                    <input class="form-input card-number-input" type="text" id="checkoutCardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+                    <div class="card-brands" aria-hidden="true">
+                      <svg viewBox="0 0 38 24" width="30" height="19"><rect x="0.5" y="0.5" width="37" height="23" rx="3" fill="#1A1F71"/><path d="M15.6 16.4l2.4-9.8h2.8l-2.4 9.8h-2.8zm11.2-9.5c-.6-.2-1.4-.4-2.5-.4-2.8 0-4.7 1.4-4.7 3.5 0 1.5 1.4 2.4 2.5 2.9 1.1.5 1.5.9 1.5 1.3 0 .7-.9 1-1.7 1-1.1 0-1.8-.2-2.7-.5l-.4-.2-.4 2.4c.7.3 1.9.6 3.2.6 2.9 0 4.8-1.4 4.9-3.6 0-1.2-.7-2.1-2.4-2.9-1-.5-1.6-.8-1.6-1.3 0-.4.5-.9 1.6-.9.9 0 1.6.2 2.1.4l.3.1.3-2.4z" fill="#fff"/></svg>
+                      <svg viewBox="0 0 38 24" width="30" height="19"><rect x="0.5" y="0.5" width="37" height="23" rx="3" fill="#000"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 7.3a7 7 0 010 9.4 7 7 0 000-9.4z" fill="#FF5F00"/></svg>
+                    </div>
+                  </div>
                 </div>
+                <div class="form-row form-row-3">
+                  <div class="form-group" style="flex:2">
+                    <label class="form-label" for="checkoutCardExpiry">Expiration</label>
+                    <input class="form-input" type="text" id="checkoutCardExpiry" placeholder="MM / YY" maxlength="7" inputmode="numeric" autocomplete="cc-exp">
+                  </div>
+                  <div class="form-group" style="flex:1">
+                    <label class="form-label" for="checkoutCardCVC">CVC</label>
+                    <input class="form-input" type="text" id="checkoutCardCVC" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+                  </div>
+                </div>
+                <p class="payment-secure-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                  </svg>
+                  Encrypted &amp; secure &mdash; powered by Stripe
+                </p>
               </div>
             </fieldset>
           </div>
