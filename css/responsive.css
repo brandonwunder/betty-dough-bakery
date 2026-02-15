@@ -435,6 +435,18 @@
     background: none;
   }
 
+  .shop .section-title .title-script.shimmer-active {
+    animation: none;
+    -webkit-text-fill-color: var(--color-text-primary);
+    background: none;
+  }
+
+  .about-section .section-title .title-script.shimmer-active {
+    animation: none;
+    -webkit-text-fill-color: var(--color-text-primary);
+    background: none;
+  }
+
   .schedule-order-btn::after {
     display: none;
   }

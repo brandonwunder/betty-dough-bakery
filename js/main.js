@@ -857,8 +857,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Section Title Script Character Reveals ---
     if (typeof SplitText !== 'undefined') {
       document.querySelectorAll('.section-title .title-script').forEach(el => {
-        // Skip hero title (already animated)
+        // Skip hero and schedule (they have custom animations)
         if (el.closest('.hero')) return;
+        if (el.closest('.schedule-section')) return;
 
         const split = new SplitText(el, { type: 'chars' });
         gsap.from(split.chars, {
@@ -870,6 +871,12 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
             trigger: el.closest('.section-title'),
             start: 'top 85%',
+          },
+          onComplete: function() {
+            split.revert();
+            gsap.delayedCall(0.5, function() {
+              el.classList.add('shimmer-active');
+            });
           }
         });
       });

@@ -493,7 +493,7 @@
 
 @keyframes heroShimmer {
   0%   { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
+  100% { background-position: -150% 0; }
 }
 
 /* --- Hero: Description --- */
@@ -664,6 +664,29 @@
   gap: var(--space-lg);
   margin-bottom: var(--space-2xl);
   text-align: center;
+}
+
+/* Menu/Shop shimmer */
+.shop .section-title .title-script.shimmer-active {
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #e8922a 48%,
+    #f5a623 52%,
+    #ffffff 60%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shopShimmer 5s ease-in-out infinite;
+}
+
+@keyframes shopShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -150% 0; }
 }
 
 .shop-tabs-group {
@@ -1083,6 +1106,29 @@
   margin-bottom: var(--space-xl);
 }
 
+/* About/Care shimmer */
+.about-section .section-title .title-script.shimmer-active {
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #e8922a 48%,
+    #f5a623 52%,
+    #ffffff 60%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: aboutShimmer 5.5s ease-in-out infinite;
+}
+
+@keyframes aboutShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -150% 0; }
+}
+
 .about-text {
   font-size: var(--text-base);
   color: var(--color-text-secondary);
@@ -1319,7 +1365,7 @@
 
 @keyframes scheduleShimmer {
   0%   { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
+  100% { background-position: -150% 0; }
 }
 
 .schedule-intro {
