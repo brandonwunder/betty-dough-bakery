@@ -716,19 +716,31 @@ document.addEventListener('DOMContentLoaded', () => {
         transformOrigin: 'center center'
       }, '-=0.1');
 
-      // Phase 4: Regular cards stagger in with blur
+      // Phase 4: Regular cards bounce in with playful rotation
       var regularCards = document.querySelectorAll('.schedule-card:not(.schedule-card-featured)');
       schedTl.from(regularCards, {
-        y: 60,
+        y: 80,
         opacity: 0,
-        scale: 0.95,
+        scale: 0.9,
+        rotation: -3,
         filter: 'blur(6px)',
-        duration: 0.8,
+        duration: 1.2,
         stagger: 0.15,
-        ease: 'power3.out'
+        ease: 'elastic.out(1, 0.6)'
       }, '-=0.2');
 
-      // Phase 5: Featured card enters from right
+      // Phase 4a: Day badges animate in sequentially (wave effect)
+      var dayBadges = document.querySelectorAll('.schedule-card .schedule-day');
+      schedTl.from(dayBadges, {
+        scale: 0,
+        opacity: 0,
+        rotation: 180,
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'back.out(2)'
+      }, '-=0.3');
+
+      // Phase 5: Featured card enters from right with more flair
       schedTl.from('.schedule-card-featured', {
         x: 80,
         opacity: 0,
@@ -736,6 +748,15 @@ document.addEventListener('DOMContentLoaded', () => {
         filter: 'blur(8px)',
         duration: 1,
         ease: 'power3.out'
+      }, '-=0.5');
+
+      // Phase 5a: Featured card gets continuous subtle pulse after entrance
+      schedTl.to('.schedule-card-featured', {
+        scale: 1.02,
+        duration: 3,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
       }, '-=0.5');
 
       // Phase 6: Badge pops in

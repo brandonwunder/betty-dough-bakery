@@ -142,6 +142,18 @@
   .schedule-blob-1 { width: 50vw; height: 50vw; }
   .schedule-blob-2 { display: none; }
 
+  /* Reduce day badge size on tablet for better readability */
+  .schedule-day {
+    width: 48px;
+    height: 48px;
+    font-size: 0.75rem;
+  }
+
+  /* Reduce featured card height on tablet */
+  .schedule-card-featured {
+    min-height: 480px;
+  }
+
   /* About owner stack on tablet */
   .about-owner {
     flex-direction: column;
@@ -294,6 +306,7 @@
 
   .schedule-card-featured {
     max-width: 100%;
+    min-height: 400px;
   }
 
   .schedule-card-inner {
@@ -303,9 +316,10 @@
   }
 
   .schedule-day {
-    width: 28px;
-    height: 28px;
-    font-size: 0.6rem;
+    width: 40px;
+    height: 40px;
+    font-size: 0.7rem;
+    border-radius: 8px;
   }
 
   .schedule-badge {
