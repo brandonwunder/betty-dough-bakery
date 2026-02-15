@@ -516,9 +516,10 @@
   font-size: var(--text-hero);
   font-weight: 400;
   letter-spacing: 0.01em;
-  line-height: 1.3;
+  line-height: 1.5;
   color: var(--color-text-primary);
-  padding-bottom: 0.2em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 
 /* Shimmer effect — activated after entrance animation completes */
