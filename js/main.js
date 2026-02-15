@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       schedTl.from('.schedule-label', {
         y: 20,
         opacity: 0,
-        duration: 0.5,
+        duration: 0.25,
         ease: 'power2.out'
       });
 
@@ -672,9 +672,9 @@ document.addEventListener('DOMContentLoaded', () => {
         y: 15,
         opacity: 0,
         letterSpacing: '0.1em',
-        duration: 0.6,
+        duration: 0.3,
         ease: 'power2.out'
-      }, '-=0.2');
+      }, '-=0.15');
 
       // SplitText char reveal for "Schedule"
       var scheduleScript = document.querySelector('.schedule-section .section-title .title-script');
@@ -684,25 +684,25 @@ document.addEventListener('DOMContentLoaded', () => {
           opacity: 0,
           y: 40,
           rotateY: -90,
-          stagger: 0.04,
-          duration: 0.6,
+          stagger: 0.02,
+          duration: 0.3,
           ease: 'back.out(1.5)',
           onComplete: function() {
             schedSplit.revert();
-            gsap.delayedCall(0.8, function() {
+            gsap.delayedCall(0.4, function() {
               scheduleScript.classList.add('shimmer-active');
             });
           }
-        }, '-=0.3');
+        }, '-=0.2');
       }
 
       // Schedule picture fades in
       schedTl.from('.schedule-picture-wrapper', {
         y: 20,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.3,
         ease: 'power2.out'
-      }, '-=0.3');
+      }, '-=0.2');
 
       // Intro text word reveal
       var schedIntro = document.querySelector('.schedule-intro');
@@ -711,23 +711,23 @@ document.addEventListener('DOMContentLoaded', () => {
         schedTl.from(introSplit.words, {
           opacity: 0,
           y: 12,
-          stagger: 0.015,
-          duration: 0.35,
+          stagger: 0.01,
+          duration: 0.2,
           ease: 'power2.out'
-        }, '-=0.2');
+        }, '-=0.15');
       } else {
         schedTl.from('.schedule-intro', {
           y: 20,
           opacity: 0,
-          duration: 0.7,
+          duration: 0.35,
           ease: 'power2.out'
-        }, '-=0.2');
+        }, '-=0.15');
       }
 
       // Divider grows from center
       schedTl.from('.schedule-divider', {
         scaleX: 0,
-        duration: 0.6,
+        duration: 0.3,
         ease: 'power3.out',
         transformOrigin: 'center center'
       }, '-=0.1');
@@ -736,59 +736,59 @@ document.addEventListener('DOMContentLoaded', () => {
       schedTl.from('.schedule-atmosphere', {
         opacity: 0,
         scale: 0.5,
-        duration: 1,
-        stagger: 0.1,
+        duration: 0.5,
+        stagger: 0.05,
         ease: 'power2.out'
-      }, '-=0.3');
+      }, '-=0.2');
 
       // Phase 4: Images materialize with elastic bounce
       schedTl.from('.schedule-image-wrapper', {
         opacity: 0,
         scale: 0.8,
         rotation: -8,
-        duration: 1,
-        stagger: 0.15,
+        duration: 0.5,
+        stagger: 0.08,
         ease: 'elastic.out(1, 0.8)',
         onComplete: function() {
           gsap.set('.schedule-image-wrapper', { clearProps: 'filter' });
         }
-      }, '-=0.6');
+      }, '-=0.4');
 
       // Date ribbons slide up — starts alongside images for faster reveal
       schedTl.from('.schedule-date-ribbon', {
         y: 30,
         opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
+        duration: 0.35,
+        stagger: 0.06,
         ease: 'power3.out'
-      }, '-=0.8');
+      }, '-=0.5');
 
       // Day dots pop in sequentially
       schedTl.from('.day-dot', {
         scale: 0,
         opacity: 0,
-        duration: 0.4,
-        stagger: 0.03,
+        duration: 0.2,
+        stagger: 0.02,
         ease: 'back.out(2.5)'
-      }, '-=0.4');
+      }, '-=0.3');
 
       // Featured badge bounces in
       schedTl.from('.schedule-featured-badge', {
         scale: 0,
         rotation: -180,
         opacity: 0,
-        duration: 0.5,
+        duration: 0.25,
         ease: 'back.out(3)'
-      }, '-=0.2');
+      }, '-=0.15');
 
       // Ambient blobs fade in
       schedTl.from('.schedule-blob', {
         opacity: 0,
         scale: 0.5,
-        duration: 1.5,
-        stagger: 0.2,
+        duration: 0.75,
+        stagger: 0.1,
         ease: 'power2.out'
-      }, '-=1.0');
+      }, '-=0.5');
 
     } else {
       // Reduced motion: make schedule elements visible
