@@ -688,6 +688,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }, '-=0.3');
       }
 
+      // Phase 1b: Schedule picture slides in from right with bounce
+      schedTl.from('.schedule-picture-wrapper', {
+        x: 100,
+        opacity: 0,
+        rotation: 15,
+        duration: 1,
+        ease: 'back.out(1.5)'
+      }, '-=0.3');
+
       // Phase 2: Intro text word reveal
       var schedIntro = document.querySelector('.schedule-intro');
       if (typeof SplitText !== 'undefined' && schedIntro) {
@@ -766,6 +775,15 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 0.4,
         ease: 'back.out(3)'
       }, '-=0.3');
+
+      // Phase 6b: Availability text fades in
+      schedTl.from('.schedule-availability', {
+        y: 10,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: 'power2.out'
+      }, '-=0.4');
 
       // Phase 7: Ambient blobs fade in
       schedTl.from('.schedule-blob', {

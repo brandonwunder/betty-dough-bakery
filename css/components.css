@@ -1378,6 +1378,42 @@
 .schedule-header {
   text-align: center;
   margin-bottom: var(--space-2xl);
+  position: relative;
+  padding-top: var(--space-md);
+}
+
+/* Schedule decorative image */
+.schedule-picture-wrapper {
+  position: absolute;
+  top: -40px;
+  right: 5%;
+  width: clamp(180px, 20vw, 280px);
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.95;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+}
+
+.schedule-picture-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Playful floating animation */
+@keyframes schedulePictureFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+.schedule-picture-wrapper {
+  animation: schedulePictureFloat 6s ease-in-out infinite;
+  animation-delay: 1s;
 }
 
 .schedule-label {
@@ -1902,6 +1938,35 @@
   font-weight: 700;
   box-shadow: 0 0 15px rgba(232, 146, 42, 0.3);
   transform: scale(1.1);
+}
+
+/* Availability text below day badges */
+.schedule-availability {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+  letter-spacing: 0.05em;
+  text-align: center;
+  opacity: 0.85;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+.schedule-availability strong {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Featured card availability text */
+.schedule-availability-featured {
+  color: var(--color-text-secondary);
+}
+
+.schedule-availability-featured strong {
+  color: var(--color-accent);
+  font-weight: 700;
 }
 
 /* --- Schedule: Sparkles (decorative) --- */
