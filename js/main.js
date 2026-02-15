@@ -767,7 +767,6 @@ document.addEventListener('DOMContentLoaded', () => {
       schedTl.from('.day-dot', {
         scale: 0,
         opacity: 0,
-        rotation: 180,
         duration: 0.4,
         stagger: 0.03,
         ease: 'back.out(2.5)'
