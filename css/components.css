@@ -26,6 +26,7 @@
   align-items: center;
   transition: color var(--transition-fast);
   align-self: flex-end;
+  margin-top: var(--space-md);
   margin-bottom: var(--space-xs);
 }
 
